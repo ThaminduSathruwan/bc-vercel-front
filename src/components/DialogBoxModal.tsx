@@ -36,7 +36,7 @@ const DialogBoxModal: React.FC<DialogBoxModalProps> = ({ isOpen, title, body, bu
           </svg>
         </button>
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-bold">{title}</h2>
+          <h1 className="text-xl font-bold">{title}</h1>
         </div>
         <div>{body}</div>
         <div className="mt-4 flex justify-end">

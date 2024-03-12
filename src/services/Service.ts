@@ -45,6 +45,23 @@ export const Service = {
             transactions_demo.push({ txn_id, txn_size, txn_type });
         }
         return transactions;
+    },
+    
+    // get stats data
+    getStatsData: async (): Promise<any> => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({
+                    transaction_count:  Math.floor(Math.random() * 100) + 10,
+                    block_count: Math.floor(Math.random() * 100) + 1,
+                    total_tx_amount:  Math.floor(Math.random() * 100) + 100,
+                    miners: Array.from({ length: 5 }, (_, index) => ({
+                        miner: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+                        miner_count: Math.floor(Math.random() * 100) + 1
+                    }))
+                });
+            }, 1000);
+        });
     }
     
 }

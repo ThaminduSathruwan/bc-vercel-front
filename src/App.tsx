@@ -4,29 +4,8 @@ import { StackedCarousel, ResponsiveContainer } from 'react-stacked-center-carou
 import Navbar from './components/Navbar';
 import TransactionStream from './components/TransactionStream';
 import DialogBoxModal from './components/DialogBoxModal';
-
-const data = [
-    {
-        image: "https://picsum.photos/200/300/?random=1",
-        text: "hello"
-    },
-    {
-        image: "https://picsum.photos/200/300/?random=12",
-        text: "lel"
-    },
-    {
-        image: "https://picsum.photos/200/300/?random=13",
-        text: "kak"
-    },
-    {
-        image: "https://picsum.photos/200/300/?random=15",
-        text: "kk"
-    },
-    {
-        image: "https://picsum.photos/200/300/?random=10",
-        text: "hello"
-    }
-];
+import Service from './services/Service';
+import PieChart from './components/PieChart';
 
 interface TransactionData {
   txn_id: string;
@@ -34,16 +13,71 @@ interface TransactionData {
   txn_type: string;
 }
 
+interface Miner {
+  miner: string;
+  miner_count: number;
+}
+
+interface StatsData {
+  transaction_count: number;
+  block_count: number;
+  total_tx_amount: number;
+  miners: Miner[];
+}
+
 function App() {
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isTransactionOpen, setIsTransactionOpen] = useState(false);
   const [transactionData, setTransactionData] = useState<TransactionData | null>(null);
+  const [statsData, setStatsData] = useState<StatsData>();
   
   const openStatsModal = () => {
-    setIsStatsOpen(true);
+    const fetchStatsData = async () => {
+      try {
+        const statsData = await Service.getStatsData();
+        setStatsData(statsData);
+        setIsStatsOpen(true);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    
+    fetchStatsData();
   }
-  
+
+const renderStatsContent = (statsData: StatsData) => {
+  if (!statsData) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="max-w-screen-lg mx-auto px-4">
+      <ul className="mt-4 divide-y divide-gray-400">
+        <li className="py-2 flex flex-wrap sm:flex-nowrap">
+          <span className="w-full sm:w-1/2 font-bold text-right">Transaction Count (Last 1 Hour):</span>
+          <span className="w-full sm:w-1/2 font-bold">{statsData.transaction_count}</span>
+        </li>
+        <li className="py-2 flex flex-wrap sm:flex-nowrap">
+          <span className="w-full sm:w-1/2 font-bold text-right">Block Count (Last 1 Hour):</span>
+          <span className="w-full sm:w-1/2 font-bold">{statsData.block_count}</span>
+        </li>
+        <li className="py-2 flex flex-wrap sm:flex-nowrap">
+          <span className="w-full sm:w-1/2 font-bold text-right">Total Transaction Amount (Last 1 Hour):</span>
+          <span className="w-full sm:w-1/2 font-bold">{statsData.total_tx_amount}</span>
+        </li>
+      </ul>
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold mb-2">Top Miners (Last 1000 Blocks)</h2>
+        <div className="w-full sm:w-64 h-auto mx-auto">
+          <PieChart miners={statsData.miners} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
   const closeStatsModal = () => {
     setIsStatsOpen(false);
   }
@@ -75,12 +109,12 @@ function App() {
   return (
     <div className="App bg-black text-white w-screen h-screen"> {/* Use overflow-hidden to prevent scrolling */}
       <Navbar openStatsModal={openStatsModal} openHelpModal={openHelpModal} />
-      <TransactionStream setTransactionData={handleSetTransactionData}/>
+      {/* <TransactionStream setTransactionData={handleSetTransactionData}/> */}
       {/* Dialog Boxes */}
       <DialogBoxModal
         isOpen={isStatsOpen}
         title="Stats"
-        body={<div>Stats content goes here.</div>}
+        body={renderStatsContent(statsData as StatsData)}
         buttons={[
           { text: "Close", onClick: closeStatsModal },
         ]}

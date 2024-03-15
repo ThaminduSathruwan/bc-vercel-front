@@ -14,8 +14,8 @@ const DialogBoxModal: React.FC<DialogBoxModalProps> = ({ isOpen, title, body, bu
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-50 flex justify-center items-center">
-      <div className="bg-gray-800 border border-white rounded-lg w-1/2 p-6 relative">
+    <div className="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+      <div className="bg-gray-800 border border-white rounded-lg w-3/4 h-3/4 relative">
         <button
           className="absolute top-0 right-0 p-2 focus:outline-none"
           onClick={onClose}
@@ -35,20 +35,22 @@ const DialogBoxModal: React.FC<DialogBoxModalProps> = ({ isOpen, title, body, bu
             />
           </svg>
         </button>
-        <div className="flex justify-between items-center">
-          <h1 className="text-xl font-bold">{title}</h1>
-        </div>
-        <div>{body}</div>
-        <div className="mt-4 flex justify-end">
-          {buttons.map((button, index) => (
-            <button
-              key={index}
-              className="px-4 py-2 mr-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-              onClick={button.onClick}
-            >
-              {button.text}
-            </button>
-          ))}
+        <div className="overflow-auto h-full">
+          <div className="flex justify-between items-center p-4">
+            <h1 className="text-xl font-bold">{title}</h1>
+          </div>
+          <div>{body}</div>
+          <div className="mt-4 flex justify-end">
+            {buttons.map((button, index) => (
+              <button
+                key={index}
+                className="px-4 py-2 mr-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                onClick={button.onClick}
+              >
+                {button.text}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

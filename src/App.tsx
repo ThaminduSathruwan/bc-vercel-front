@@ -5,6 +5,7 @@ import Service from './services/Service';
 import DialogBoxModal from './components/DialogBoxModal';
 import PieChart from './components/PieChart';
 import Stream from './components/Stream';
+import Replay from './components/Replay';
 
 interface Miner {
   miner: string;
@@ -19,9 +20,11 @@ interface StatsData {
 }
 
 interface TransactionData {
-  txn_id: string;
-  txn_size: number;
-  txn_type: string;
+  txn_hash: string;
+  status: string;
+  amount: number;
+  type: number;
+  fee: number;
 }
 
 function App() {
@@ -29,9 +32,12 @@ function App() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isTransactionOpen, setIsTransactionOpen] = useState(false);
   const [isBlockOpen, setIsBlockOpen] = useState(false);
+  const [isReplayOpen, setIsReplayOpen] = useState(false);
   const [transactionData, setTransactionData] = useState<TransactionData | null>(null);
   const [blockData, setBlockData] = useState<any | null>(null);
   const [statsData, setStatsData] = useState<StatsData>();
+  
+  const [transactionTypes, setTransactionTypes] = useState(["Legacy", "Crypto", "Contract", "Shared-blob"]);
   
   const openStatsModal = () => {
     const fetchStatsData = async () => {
@@ -61,6 +67,10 @@ function App() {
     setIsBlockOpen(true);
   }
   
+  const openReplayModal = () => {
+    setIsReplayOpen(true);
+  }
+  
   const closeStatsModal = () => {
     setIsStatsOpen(false);
   }
@@ -75,6 +85,10 @@ function App() {
   
   const closeBlockModal = () => {
     setIsBlockOpen(false);
+  }
+  
+  const closeReplayModal = () => {
+    setIsReplayOpen(false);
   }
   
   const onSearch = (searchQuery: string) => {
@@ -136,20 +150,28 @@ function App() {
       <div>
         <ul className="mt-4 divide-y divide-gray-400">
           <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Transaction ID &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{transactionData.txn_id}</span>
+            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Hash &nbsp;:</span>
+            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{transactionData.txn_hash}</span>
           </li>
           <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Size &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{transactionData.txn_size}</span>
+            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Status &nbsp;:</span>
+            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{transactionData.status}</span>
+          </li>
+          <li className="py-2 flex flex-wrap sm:flex-nowrap">
+            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Amount &nbsp;:</span>
+            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{transactionData.amount}</span>
           </li>
           <li className="py-2 flex flex-wrap sm:flex-nowrap">
             <span className="w-full sm:w-1/2 font-bold text-right">Transaction Type &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{transactionData.txn_type}</span>
+            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{transactionTypes[transactionData.type]}</span>
+          </li>
+          <li className="py-2 flex flex-wrap sm:flex-nowrap">
+            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Fee &nbsp;:</span>
+            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{transactionData.fee}</span>
           </li>
           <li className="py-2 flex flex-wrap sm:flex-nowrap">
             <span className="w-full sm:w-1/2 font-bold text-right">View More &nbsp;:</span>
-            <a href={`https://etherscan.io/tx/${transactionData.txn_id}`} target="_blank" rel="noopener noreferrer" className="w-full sm:w-1/2 font-bold text-blue-500 hover:underline text-left">&nbsp;&nbsp;View on Etherscan</a>
+            <a href={`https://etherscan.io/tx/${transactionData.txn_hash}`} target="_blank" rel="noopener noreferrer" className="w-full sm:w-1/2 font-bold text-blue-500 hover:underline text-left">&nbsp;&nbsp;View on Etherscan</a>
           </li>
         </ul>
       </div>
@@ -213,9 +235,15 @@ function App() {
     );
   }
   
+  const renderReplayContent = () => {
+    return (
+      <Replay setTransactionData={handleSetTransactionData} setBlockData={handleSetBlockData}/>
+    );
+  }
+  
   return (
     <div className="App bg-black text-white w-screen h-screen"> {/* Use overflow-hidden to prevent scrolling */}
-      <Navbar openStatsModal={openStatsModal} openHelpModal={openHelpModal} onSearch={onSearch} />
+      <Navbar openStatsModal={openStatsModal} openHelpModal={openHelpModal} onSearch={onSearch} openReplayModal={openReplayModal}/>
       <Stream setTransactionData={handleSetTransactionData} setBlockData={handleSetBlockData}/>
       {/* Dialog Boxes */}
       <DialogBoxModal
@@ -253,6 +281,15 @@ function App() {
           // { text: "Close", onClick: closeBlockModal },
         ]}
         onClose={closeBlockModal}
+      />
+      <DialogBoxModal
+        isOpen={isReplayOpen}
+        title="Replay"
+        body={renderReplayContent()}
+        buttons={[
+          // { text: "Close", onClick: closeBlockModal },
+        ]}
+        onClose={closeReplayModal}
       />
     </div>
   );

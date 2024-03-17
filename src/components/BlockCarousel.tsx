@@ -9,12 +9,12 @@ interface CarouselProps {
 const MAX_VISIBILITY = 3;
 
 const BlockCarousel: React.FC<CarouselProps> = ({ children }) => {
-  const [active, setActive] = useState(React.Children.count(children)-1);
+  const [active, setActive] = useState(-1);
   const count = React.Children.count(children);
   
   useEffect(() => {
     setActive((prevActive) => {
-      if (prevActive === -1 && count > 1) {
+      if (prevActive === -1 && count >= 1) {
         return count - 1;
       }
       else if (prevActive === count - 2 && count > 1) {
@@ -25,7 +25,7 @@ const BlockCarousel: React.FC<CarouselProps> = ({ children }) => {
   } , [count]);
 
   return (
-    <div className="carousel">
+    <div className="carousel w-1/4" style={{"height": "100px"}}>
       {active > 0 && (
         <button className="nav left" onClick={() => setActive((i) => i - 1)}>
           <FaArrowLeft />

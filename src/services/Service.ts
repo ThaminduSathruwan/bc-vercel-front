@@ -1,5 +1,7 @@
 import ApiService from "./ApiService";
 
+const savedTransactions: any[] = [];
+
 export const Service = {
     // get stream data
     // getStreamData: (start_time: string, end_time: string) => ApiService.get(`/stream/${ start_time }/${ end_time }`),
@@ -57,9 +59,11 @@ export const Service = {
     // generate random transaction
     generateRandomTransaction: (): any => {
         return {
-            txn_id: Date.now().toString(),
-            txn_size: Math.floor(Math.random() * 10) + 5,
-            txn_type: Math.random() > 0.5 ? "send" : "receive"
+            txn_hash: (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)),
+            status: Date.now().toString(),
+            amount: Math.floor(Math.random() * 10) + 5,
+            type: Math.floor(Math.random() * 4),
+            fee: Math.floor(Math.random() * 100) + 1
         };
     },
     
@@ -67,10 +71,13 @@ export const Service = {
     generateRandomBlock: (): any => {
         return {
             block_hash: (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)),
-            height: Math.floor(Math.random() * 1000) + 1,
-            nonce: Math.floor(Math.random() * 100000) + 1,
-            difficulty: Math.floor(Math.random() * 100000) + 1,
-            timestamp: new Date().toISOString()
+            previous_block_hash: (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)),
+            //get random Transaction hashes from savedTransactions
+            txn_hashes: savedTransactions.splice(Math.floor(Math.random() * savedTransactions.length), Math.floor(Math.random() * savedTransactions.length)),
+            total_amount: Math.floor(Math.random() * 1000) + 1,
+            total_fee: Math.floor(Math.random() * 100000) + 1,
+            txn_cnt: Math.floor(Math.random() * 100000) + 1,
+            time_stamp: new Date().toISOString()
         };
     },
     
@@ -78,9 +85,12 @@ export const Service = {
     getStreamData: async (start_time: string, end_time: string): Promise<any> => {
         return new Promise((resolve) => {
             setTimeout(() => {
+                const randomTransactions = Array.from({ length: 100 }, () => Service.generateRandomTransaction());
+                const randomBlocks = Array.from({ length: 1 }, () => Service.generateRandomBlock());
+                savedTransactions.push(...randomTransactions.map((txn: any) => txn.txn_hash));
                 resolve({
-                    transactions: Array.from({ length: 100 }, () => Service.generateRandomTransaction()),
-                    blocks: Array.from({ length: 1 }, () => Service.generateRandomBlock())
+                    transactions: randomTransactions,
+                    blocks: randomBlocks
                 });
             }, 1000);
         });
@@ -101,9 +111,11 @@ export const Service = {
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve({
-                    txn_id: txn_hash,
-                    txn_size: Math.floor(Math.random() * 10) + 5,
-                    txn_type: Math.random() > 0.5 ? "send" : "receive"
+                    txn_hash: txn_hash,
+                    status: Date.now().toString(),
+                    amount: Math.floor(Math.random() * 10) + 5,
+                    type: Math.floor(Math.random() * 4),
+                    fee: Math.floor(Math.random() * 100) + 1
                 });
             }, 1000);
         });

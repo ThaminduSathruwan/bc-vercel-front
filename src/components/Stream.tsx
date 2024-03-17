@@ -21,6 +21,11 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData}) => {
     const [isInitialBlocksSet, setIsInitialBlocksSet] = useState<boolean>(false);
     const [transactionPool, setTransactionPool] = useState<any[]>([]);
     const [initialTime, setInitialTime] = useState(new Date());
+    const [count, setCount] = useState(0);
+    
+    const updateCount = (newCount: number) => {
+        setCount(count + newCount);
+    }
     
     const addTransactionToPool = (txn: any) => {
         setTransactionPool(prevTransactionPool => [...prevTransactionPool, txn]);
@@ -55,13 +60,14 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData}) => {
                 setInitialTime(current_time);
                 const streamData = await Service.getStreamData(start_time, end_time);
                 setTransaction(streamData.transactions);
+                updateCount(streamData.transactions.length);
                 addBlock(streamData.blocks);
             } catch (error) {
                 console.error(error);
             }
         };
         
-        const intervalId = setInterval(fetchStreamData, 5000);
+        const intervalId = setInterval(fetchStreamData, 10000);
         return () => {
             clearInterval(intervalId);
         };
@@ -70,7 +76,7 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData}) => {
     return (
         <div className="container mx-auto">
             <Transaction transaction={transaction} addTransactionToPool={addTransactionToPool} />
-            <TransactionPool poolTransaction={transactionPool} setTransactionData={setTransactionData} />
+            <TransactionPool poolTransaction={transactionPool} setTransactionData={setTransactionData} count={count}/>
             <div className='flex items-center justify-center mt-8'>
                 <BlockCarousel>
                     {block.map((b, index) => (

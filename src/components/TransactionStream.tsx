@@ -80,7 +80,6 @@ const TransactionStream: React.FC<TransactionStreamProps> = ({setTransactionData
     return (
         <div className="">
             <Transaction transaction={transaction} addTransactionToPool={addTransactionToPool} />
-            <TransactionPool poolTransaction={transactionPool} setTransactionData={setTransactionData} />
         </div>
     );
 }

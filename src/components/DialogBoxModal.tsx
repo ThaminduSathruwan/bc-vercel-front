@@ -14,8 +14,8 @@ const DialogBoxModal: React.FC<DialogBoxModalProps> = ({ isOpen, title, body, bu
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-      <div className="bg-gray-800 border border-white rounded-lg w-3/4 h-3/4 relative">
+    <div className="fixed inset-0 z-40 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+      <div className="bg-black border border-white rounded-lg w-3/4 h-3/4 relative">
         <button
           className="absolute top-0 right-0 p-2 focus:outline-none"
           onClick={onClose}

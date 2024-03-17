@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { FaChartBar, FaQuestionCircle, FaSearch } from 'react-icons/fa';
+import { MdReplayCircleFilled } from "react-icons/md";
 import Logo from "../Assets/Logo.png";
 
 interface NavbarProps {
   openStatsModal: () => void;
   openHelpModal: () => void;
+  openReplayModal: () => void;
   onSearch: (query: string) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ openStatsModal, openHelpModal, onSearch }) => {
+const Navbar: React.FC<NavbarProps> = ({ openStatsModal, openHelpModal, openReplayModal, onSearch }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = () => {
@@ -25,19 +27,26 @@ const Navbar: React.FC<NavbarProps> = ({ openStatsModal, openHelpModal, onSearch
       <div className="flex-grow text-center lg:text-left">
         <div className="text-sm">
           <button
-            className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4"
-            onClick={openStatsModal}
+              className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-200 focus:outline-none mr-4"
+              onClick={openStatsModal}
           >
-            <FaChartBar className="inline-block mr-1" /> Stats
+              <FaChartBar className="inline-block mr-1" /> Stats
           </button>
           <button
-            className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white"
-            onClick={openHelpModal}
+              className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-200 focus:outline-none mr-4"
+              onClick={openHelpModal}
           >
-            <FaQuestionCircle className="inline-block mr-1" /> Help
+              <FaQuestionCircle className="inline-block mr-1" /> Help
+          </button>
+          <button
+              className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-200 focus:outline-none"
+              onClick={openReplayModal}
+          >
+              <MdReplayCircleFilled className="inline-block mr-1" /> Replay
           </button>
         </div>
       </div>
+
       <div className="flex items-center mt-4 lg:mt-0 lg:ml-auto">
         <div className="relative">
           <input

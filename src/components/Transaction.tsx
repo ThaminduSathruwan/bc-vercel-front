@@ -1,25 +1,33 @@
 import * as d3 from "d3";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 interface TransactionProps {
     transaction: {
-        txn_id: string;
-        txn_size: number;
-        txn_type: string;
+        txn_hash: string;
+        status: string;
+        amount: number;
+        type: number;
+        fee: number;
     }[];
     addTransactionToPool: (txn: any) => void;
 }
 
 const Transaction: React.FC<TransactionProps> = ({ transaction, addTransactionToPool }) => {
     const svgRef = React.useRef<SVGSVGElement>(null);
+    const transactionTypes = ["Legacy", "Crypto", "Contract", "Shared-blob"]
 
     useEffect(() => {
         const svg = d3.select(svgRef.current);
 
         // Define transaction color based on txn_type
+        // const colorScale = d3.scaleOrdinal<string>()
+        //     .domain(transaction.map(txn => transactionTypes[txn.type]))
+        //     .range(d3.schemeCategory10);
+        
+        // Define transaction color based on txn_type
         const colorScale = d3.scaleOrdinal<string>()
-            .domain(transaction.map(txn => txn.txn_type))
-            .range(d3.schemeCategory10);
+            .domain(Object.values(transactionTypes)) // Use the values of transactionTypes as the domain
+                .range(d3.schemeCategory10);
 
         // Draw transaction circles
         svg.selectAll("circle")
@@ -28,8 +36,8 @@ const Transaction: React.FC<TransactionProps> = ({ transaction, addTransactionTo
             .append("circle")
             .attr('cx', () => Math.random() * window.innerWidth)
             .attr('cy', () => Math.random() * window.innerHeight)
-            .attr('r', txn => txn.txn_size)
-            .attr('fill', txn => colorScale(txn.txn_type))
+            .attr('r', txn => txn.amount)
+            .attr('fill', txn => colorScale(transactionTypes[txn.type]))
             .attr('opacity', 0.5);
 
         // Transaction move animation
@@ -39,11 +47,11 @@ const Transaction: React.FC<TransactionProps> = ({ transaction, addTransactionTo
                     const circle = d3.select(this);
                     const currentCx = +circle.attr('cx');
                     const currentCy = +circle.attr('cy');
-                    const newCy = currentCy + txn.txn_size / 2;
+                    const newCy = currentCy + txn.amount / 2;
                     if (newCy >= window.innerHeight) {
                         // If the transaction is outside the window, remove it
-                        transaction.splice(transaction.findIndex(t => t.txn_id === txn.txn_id), 1);
-                        addTransactionToPool({ ...txn, x: currentCx, y: currentCy, txn_color: colorScale(txn.txn_type) });
+                        transaction.splice(transaction.findIndex(t => t.txn_hash === txn.txn_hash), 1);
+                        addTransactionToPool({ ...txn, txn_color: colorScale(transactionTypes[txn.type]) });
                         circle.remove();
                     }
                     else {
@@ -53,7 +61,7 @@ const Transaction: React.FC<TransactionProps> = ({ transaction, addTransactionTo
         }
 
         // Move transactions every 50ms
-        const intervalId = setInterval(moveTransaction, 50);
+        const intervalId = setInterval(moveTransaction, 20);
 
         return () => {
             clearInterval(intervalId);

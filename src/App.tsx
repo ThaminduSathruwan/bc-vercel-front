@@ -237,7 +237,7 @@ function App() {
   
   const renderReplayContent = () => {
     return (
-      <Replay setTransactionData={handleSetTransactionData} setBlockData={handleSetBlockData}/>
+      <Replay />
     );
   }
   

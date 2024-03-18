@@ -8,14 +8,21 @@ interface DialogBoxModalProps {
   body: React.ReactNode;
   buttons: { text: string; onClick: () => void }[];
   onClose: () => void;
+  width?: string;
+  height?: string;
 }
 
-const DialogBoxModal: React.FC<DialogBoxModalProps> = ({ isOpen, title, body, buttons, onClose }) => {
+const DialogBoxModal: React.FC<DialogBoxModalProps> = ({ isOpen, title, body, buttons, onClose, width='75%', height='75%'}) => {
   if (!isOpen) return null;
+
+  const WHStyle = {
+    width: width,
+    height: height,
+  };
 
   return (
     <div className="fixed inset-0 z-40 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-      <div className="bg-black border border-white rounded-lg w-3/4 h-3/4 relative">
+      <div className="bg-black border border-white rounded-lg relative" style={WHStyle}>
         <button
           className="absolute top-0 right-0 p-2 focus:outline-none"
           onClick={onClose}

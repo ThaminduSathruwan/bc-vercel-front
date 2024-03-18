@@ -4,20 +4,23 @@ import Transaction from './Transaction';
 import TransactionPool from './TransactionPool';
 import BlockCarousel from './BlockCarousel';
 import Card from './Card';
+import DialogBoxModal from './DialogBoxModal';
 
-interface ReplayProps {
-    setTransactionData: (txnData: any) => void;
-    setBlockData: (blockData: any) => void;
-}
-
-const Replay: React.FC<ReplayProps> = ({setTransactionData, setBlockData}) => {
+const Replay: React.FC = () => {
     const [startTime, setStartTime] = useState('');
     const [replayedTransactions, setReplayedTransactions] = useState<any[]>([]);
     const [replayedBlocks, setReplayedBlocks] = useState<any[]>([]);
     const [replayTransactionPool, setReplayTransactionPool] = useState<any[]>([]);
     const [endTime, setEndTime] = useState('');
     const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+    const [isBlockModalOpen, setIsBlockModalOpen] = useState(false);
+    const [replayBlockData, setReplayBlockData] = useState<any | null>(null);
+    const [isTxnModalOpen, setIsTxnModalOpen] = useState(false);
+    const [replayTxnData, setReplayTxnData] = useState<any | null>(null);
 
+    const [txnTypes, setTxnTypes] = useState(["Legacy", "Crypto", "Contract", "Shared-blob"]);
+
+    
     const handleStartTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setStartTime(event.target.value);
     };
@@ -73,6 +76,98 @@ const Replay: React.FC<ReplayProps> = ({setTransactionData, setBlockData}) => {
             console.error(error);
         }
     };
+    
+    const openReplayBlockModal = () => {
+        setIsBlockModalOpen(true);
+    };
+    
+    const closeReplayBlockModal = () => {
+        setIsBlockModalOpen(false);
+    };
+
+    const handleSetBlockData = (blockData: any) => {
+        setReplayBlockData(blockData);
+        openReplayBlockModal();
+    };
+    
+    const renderBlockContent = (blockData: any) => {
+        return (
+        <div>
+            <ul className="mt-4 divide-y divide-gray-400">
+            <li className="py-2 flex flex-wrap sm:flex-nowrap">
+                <span className="w-full sm:w-1/2 font-bold text-right">Block Hash &nbsp;:</span>
+                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{blockData.block_hash}</span>
+            </li>
+            <li className="py-2 flex flex-wrap sm:flex-nowrap">
+                <span className="w-full sm:w-1/2 font-bold text-right">Height &nbsp;:</span>
+                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{blockData.height}</span>
+            </li>
+            <li className="py-2 flex flex-wrap sm:flex-nowrap">
+                <span className="w-full sm:w-1/2 font-bold text-right">Nonce &nbsp;:</span>
+                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{blockData.nonce}</span>
+            </li>
+            <li className="py-2 flex flex-wrap sm:flex-nowrap">
+                <span className="w-full sm:w-1/2 font-bold text-right">Difficulty &nbsp;:</span>
+                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{blockData.difficulty}</span>
+            </li>
+            <li className="py-2 flex flex-wrap sm:flex-nowrap">
+                <span className="w-full sm:w-1/2 font-bold text-right">Timestamp &nbsp;:</span>
+                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{blockData.timestamp}</span>
+            </li>
+            <li className="py-2 flex flex-wrap sm:flex-nowrap">
+                <span className="w-full sm:w-1/2 font-bold text-right">View More &nbsp;:</span>
+                <a href={`https://etherscan.io/block/${blockData.block_hash}`} target="_blank" rel="noopener noreferrer" className="w-full sm:w-1/2 font-bold text-blue-500 hover:underline text-left">&nbsp;&nbsp;View on Etherscan</a> 
+            </li>
+            </ul>
+        </div>
+        );
+    }
+    
+    const openReplayTxnModal = () => {
+        setIsTxnModalOpen(true);
+    };
+    
+    const closeReplayTxnModal = () => {
+        setIsTxnModalOpen(false);
+    };
+
+    const handleSetTxnData = (txnData: any) => {
+        setReplayTxnData(txnData);
+        openReplayTxnModal();
+    };
+    
+    const renderTxnContent = (txnData: any) => {
+    return (
+      <div>
+        <ul className="mt-4 divide-y divide-gray-400">
+          <li className="py-2 flex flex-wrap sm:flex-nowrap">
+            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Hash &nbsp;:</span>
+            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.txn_hash}</span>
+          </li>
+          <li className="py-2 flex flex-wrap sm:flex-nowrap">
+            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Status &nbsp;:</span>
+            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.status}</span>
+          </li>
+          <li className="py-2 flex flex-wrap sm:flex-nowrap">
+            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Amount &nbsp;:</span>
+            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.amount}</span>
+          </li>
+          <li className="py-2 flex flex-wrap sm:flex-nowrap">
+            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Type &nbsp;:</span>
+            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnTypes[txnData.type]}</span>
+          </li>
+          <li className="py-2 flex flex-wrap sm:flex-nowrap">
+            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Fee &nbsp;:</span>
+            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.fee}</span>
+          </li>
+          <li className="py-2 flex flex-wrap sm:flex-nowrap">
+            <span className="w-full sm:w-1/2 font-bold text-right">View More &nbsp;:</span>
+            <a href={`https://etherscan.io/tx/${txnData.txn_hash}`} target="_blank" rel="noopener noreferrer" className="w-full sm:w-1/2 font-bold text-blue-500 hover:underline text-left">&nbsp;&nbsp;View on Etherscan</a>
+          </li>
+        </ul>
+      </div>
+    );
+  }
 
     return (
         <div className="">
@@ -92,7 +187,7 @@ const Replay: React.FC<ReplayProps> = ({setTransactionData, setBlockData}) => {
                 </form>
             </div>
             <Transaction transaction={replayedTransactions} addTransactionToPool={addTransactionToReplayPool} />
-            <TransactionPool poolTransaction={replayTransactionPool} setTransactionData={setTransactionData} count={0} />
+            <TransactionPool poolTransaction={replayTransactionPool} setTransactionData={handleSetTxnData} count={0} />
             {replayedBlocks.length === 0 && (
                 <div className='flex items-center justify-center mt-8'>
                     <BlockCarousel children={undefined} />
@@ -106,12 +201,34 @@ const Replay: React.FC<ReplayProps> = ({setTransactionData, setBlockData}) => {
                                 key={index}
                                 title={b.block_hash}
                                 content={b}
-                                setBlockData={setBlockData}
+                                setBlockData={handleSetBlockData}
                             />
                         ))}
                     </BlockCarousel>
                 </div>
             )}
+            <DialogBoxModal
+                isOpen={isTxnModalOpen}
+                title="Transaction Details"
+                body={replayTxnData ? renderTxnContent(replayTxnData) : <div>Loading...</div>}
+                buttons={[
+                // { text: "Close", onClick: closeTransactionModal },
+                ]}
+                onClose={closeReplayTxnModal}
+                width='60%'
+                height='60%'
+            />
+            <DialogBoxModal
+                isOpen={isBlockModalOpen}
+                title="Block Details"
+                body={replayBlockData ? renderBlockContent(replayBlockData) : <div>Loading...</div>}
+                buttons={[
+                // { text: "Close", onClick: closeBlockModal },
+                ]}
+                onClose={closeReplayBlockModal}
+                width='60%'
+                height='60%'
+            />
         </div>
     );
 };

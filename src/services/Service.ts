@@ -47,10 +47,21 @@ export const Service = {
             setTimeout(() => {
                 resolve({
                     block_hash: block_hash,
-                    height: Math.floor(Math.random() * 1000) + 1,
+                    previous_block_hash: (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)),
+                    total_amount: Math.floor(Math.random() * 1000) + 1,
+                    total_fee: Math.floor(Math.random() * 100000) + 1,
+                    txn_cnt: Math.floor(Math.random() * 100000) + 1,
+                    time_stamp: new Date().toISOString(),
+                    miner: (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)),
                     nonce: Math.floor(Math.random() * 100000) + 1,
                     difficulty: Math.floor(Math.random() * 100000) + 1,
-                    timestamp: new Date().toISOString()
+                    height: Math.floor(Math.random() * 100000) + 1,
+                    transactions: Array.from({ length: 50 }, () => (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15))),
+                    uncles: Array.from({ length: 5 }, () => (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15))),
+                    sidecar: Array.from({ length: 5 }, () => ({
+                        id: (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)),
+                        size: Math.floor(Math.random() * 100000) + 1
+                    }))
                 });
             }, 1000);
         });

@@ -6,6 +6,7 @@ import DialogBoxModal from './components/DialogBoxModal';
 import PieChart from './components/PieChart';
 import Stream from './components/Stream';
 import Replay from './components/Replay';
+import BlockView from './components/BlockView';
 
 interface Miner {
   miner: string;
@@ -180,34 +181,7 @@ function App() {
   
   const renderBlockContent = (blockData: any) => {
     return (
-      <div>
-        <ul className="mt-4 divide-y divide-gray-400">
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Block Hash &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{blockData.block_hash}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Height &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{blockData.height}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Nonce &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{blockData.nonce}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Difficulty &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{blockData.difficulty}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Timestamp &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{blockData.timestamp}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">View More &nbsp;:</span>
-            <a href={`https://etherscan.io/block/${blockData.block_hash}`} target="_blank" rel="noopener noreferrer" className="w-full sm:w-1/2 font-bold text-blue-500 hover:underline text-left">&nbsp;&nbsp;View on Etherscan</a> 
-          </li>
-        </ul>
-      </div>
+      <BlockView block={blockData} setBlockData={handleSetBlockData} closeBlockModal={closeBlockModal} />
     );
   }
 

@@ -45,8 +45,8 @@ const TransactionPool: React.FC<PoolTransactionProps> = ({ poolTransaction, setT
                             </div> */}
                             <button onClick={() => handleTransactionClick(txn.txn_hash)}>
                                 <svg width={txn.amount} height={txn.amount}>
-                                <circle cx={txn.amount / 2} cy={txn.amount / 2} r={txn.amount / 2} fill={txn.txn_color} />
-                            </svg>
+                                    <circle cx={txn.amount / 2} cy={txn.amount / 2} r={txn.amount / 2} fill={txn.txn_color} />
+                                </svg>
                             </button>
                         </div>
                     ))}

@@ -142,37 +142,37 @@ const Replay: React.FC = () => {
     };
     
     const renderTxnContent = (txnData: any) => {
-    return (
-      <div>
-        <ul className="mt-4 divide-y divide-gray-400">
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Hash &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.txn_hash}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Status &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.status}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Amount &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.amount}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Type &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnTypes[txnData.type]}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Fee &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.fee}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">View More &nbsp;:</span>
-            <a href={`https://etherscan.io/tx/${txnData.txn_hash}`} target="_blank" rel="noopener noreferrer" className="w-full sm:w-1/2 font-bold text-blue-500 hover:underline text-left">&nbsp;&nbsp;View on Etherscan</a>
-          </li>
-        </ul>
-      </div>
-    );
-  }
+        return (
+        <div>
+            <ul className="mt-4 divide-y divide-gray-400">
+            <li className="py-2 flex flex-wrap sm:flex-nowrap">
+                <span className="w-full sm:w-1/2 font-bold text-right">Transaction Hash &nbsp;:</span>
+                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.txn_hash}</span>
+            </li>
+            <li className="py-2 flex flex-wrap sm:flex-nowrap">
+                <span className="w-full sm:w-1/2 font-bold text-right">Transaction Status &nbsp;:</span>
+                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.status}</span>
+            </li>
+            <li className="py-2 flex flex-wrap sm:flex-nowrap">
+                <span className="w-full sm:w-1/2 font-bold text-right">Transaction Amount &nbsp;:</span>
+                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.amount}</span>
+            </li>
+            <li className="py-2 flex flex-wrap sm:flex-nowrap">
+                <span className="w-full sm:w-1/2 font-bold text-right">Transaction Type &nbsp;:</span>
+                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnTypes[txnData.type]}</span>
+            </li>
+            <li className="py-2 flex flex-wrap sm:flex-nowrap">
+                <span className="w-full sm:w-1/2 font-bold text-right">Transaction Fee &nbsp;:</span>
+                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.fee}</span>
+            </li>
+            <li className="py-2 flex flex-wrap sm:flex-nowrap">
+                <span className="w-full sm:w-1/2 font-bold text-right">View More &nbsp;:</span>
+                <a href={`https://etherscan.io/tx/${txnData.txn_hash}`} target="_blank" rel="noopener noreferrer" className="w-full sm:w-1/2 font-bold text-blue-500 hover:underline text-left">&nbsp;&nbsp;View on Etherscan</a>
+            </li>
+            </ul>
+        </div>
+        );
+    }
 
     return (
         <div className="">

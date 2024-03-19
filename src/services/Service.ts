@@ -85,7 +85,7 @@ export const Service = {
     getStreamData: async (start_time: string, end_time: string): Promise<any> => {
         return new Promise((resolve) => {
             setTimeout(() => {
-                const randomTransactions = Array.from({ length: 100 }, () => Service.generateRandomTransaction());
+                const randomTransactions = Array.from({ length: 200 }, () => Service.generateRandomTransaction());
                 const randomBlocks = Array.from({ length: 1 }, () => Service.generateRandomBlock());
                 savedTransactions.push(...randomTransactions.map((txn: any) => txn.txn_hash));
                 resolve({

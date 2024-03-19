@@ -72,6 +72,11 @@ const Replay: React.FC = () => {
             const response = await Service.getStreamData(start_time, end_time);
             setReplayedTransactions(response.transactions);
             addBlocks(response.blocks);
+            const txnsToRemove: string[] = [];
+                for (let i = 0; i < response.blocks.length; i++) {
+                    txnsToRemove.push(response.blocks[i].txn_hashes);
+                }
+            setReplayTransactionPool(prevReplayTransactionPool => prevReplayTransactionPool.filter(txn => !txnsToRemove[0].includes(txn.txn_hash)));
         } catch (error) {
             console.error(error);
         }

@@ -11,8 +11,26 @@ interface StreamProps {
 }
 
 interface StreamData {
-     transactions: any[];
-     blocks: any[];
+     transactions: TransactionData;
+     blocks: BlockData;
+}
+
+interface TransactionData {
+    txn_hash: string;
+    status: string;
+    amount: number;
+    type: number;
+    fee: number;
+}
+
+interface BlockData {
+    block_hash: string;
+    previous_block_hash: string;
+    txn_hashes: string[];
+    total_amount: number;
+    total_fee: number;
+    txn_cnt: number;
+    time_stamp: string;
 }
 
 const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData}) => {
@@ -62,6 +80,12 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData}) => {
                 setTransaction(streamData.transactions);
                 updateCount(streamData.transactions.length);
                 addBlock(streamData.blocks);
+                const txnsToRemove: string[] = [];
+                for (let i = 0; i < streamData.blocks.length; i++) {
+                    txnsToRemove.push(streamData.blocks[i].txn_hashes);
+                }
+                setTransactionPool(prevTransactionPool => prevTransactionPool.filter(txn => !txnsToRemove[0].includes(txn.txn_hash)));
+
             } catch (error) {
                 console.error(error);
             }

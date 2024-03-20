@@ -3,23 +3,11 @@ import './index.css'; // Import Tailwind CSS
 import Navbar from './components/Navbar';
 import Service from './services/Service';
 import DialogBoxModal from './components/DialogBoxModal';
-import PieChart from './components/PieChart';
 import Stream from './components/Stream';
 import Replay from './components/Replay';
 import BlockView from './components/BlockView';
 import TxnView from './components/TxnView';
-
-interface Miner {
-  miner: string;
-  miner_count: number;
-}
-
-interface StatsData {
-  transaction_count: number;
-  block_count: number;
-  total_tx_amount: number;
-  miners: Miner[];
-}
+import StatsView from './components/StatsView';
 
 function App() {
   const [isStatsOpen, setIsStatsOpen] = useState(false);
@@ -29,7 +17,7 @@ function App() {
   const [isReplayOpen, setIsReplayOpen] = useState(false);
   const [transactionData, setTransactionData] = useState<any | null>(null);
   const [blockData, setBlockData] = useState<any | null>(null);
-  const [statsData, setStatsData] = useState<StatsData>();
+  const [statsData, setStatsData] = useState<any>();
   
   const [transactionTypes, setTransactionTypes] = useState(["Legacy", "Crypto", "Contract", "Shared-blob"]);
   
@@ -108,34 +96,9 @@ function App() {
     openBlockModal();
   }
   
-  const renderStatsContent = (statsData: StatsData) => {
-    if (!statsData) {
-      return <div>Loading...</div>;
-    }
-
+  const renderStatsContent = (statsData: any) => {
     return (
-      <div className="max-w-screen-lg mx-auto px-4">
-        <ul className="mt-4 divide-y divide-gray-400">
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Count (Last 1 Hour) :</span>
-            <span className="w-full sm:w-1/2 font-bold text-center">{statsData.transaction_count}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Block Count (Last 1 Hour) :</span>
-            <span className="w-full sm:w-1/2 font-bold text-center">{statsData.block_count}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Total Transaction Amount (Last 1 Hour) :</span>
-            <span className="w-full sm:w-1/2 font-bold text-center">{statsData.total_tx_amount}</span>
-          </li>
-        </ul>
-        <div className="mt-8">
-          <h2 className="text-lg font-semibold mb-2 text-center">Top Miners (Last 1000 Blocks)</h2>
-          <div className="w-full sm:w-64 h-auto mx-auto">
-            <PieChart miners={statsData.miners} />
-          </div>
-        </div>
-      </div>
+      <StatsView StatsData={statsData} />
     );
   };
   
@@ -189,7 +152,7 @@ function App() {
       <DialogBoxModal
         isOpen={isStatsOpen}
         title="Stats"
-        body={renderStatsContent(statsData as StatsData)}
+        body={renderStatsContent(statsData)}
         buttons={[
           // { text: "Close", onClick: closeStatsModal },
         ]}

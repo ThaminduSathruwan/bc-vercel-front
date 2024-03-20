@@ -8,6 +8,7 @@ import Replay from './components/Replay';
 import BlockView from './components/BlockView';
 import TxnView from './components/TxnView';
 import StatsView from './components/StatsView';
+import HelpView from './components/HelpView';
 
 function App() {
   const [isStatsOpen, setIsStatsOpen] = useState(false);
@@ -116,25 +117,7 @@ function App() {
 
   const renderHelpContent = () => {
     return (
-      <div className="max-w-screen-md mx-auto px-4 py-8">
-        <h2 className="text-2xl font-semibold mb-4 text-center text-gray-300">Welcome to the Help Center</h2>
-        <div className="bg-gray-900 border border-gray-700 shadow-md rounded-lg p-6">
-          <h3 className="text-xl font-semibold mb-4 text-white text-center">Getting Started</h3>
-          <p className="mb-4 text-gray-400">To begin exploring the Blockchain Visualizer, simply enter a transaction ID or block hash in the search bar. The visualizer will then display the transaction details or block information, allowing you to interactively explore the blockchain.</p>
-          
-          <h3 className="text-xl font-semibold mb-4 text-white text-center">FAQs</h3>
-          <div className="mb-4">
-            <p className="mb-2 text-white"><strong>Q: What blockchain networks does the visualizer support?</strong></p>
-            <p className="mb-4 text-gray-400">A: Our visualizer currently supports popular blockchain networks such as Ethereum and Bitcoin. We're continuously expanding our support to include more networks in the future.</p>
-            
-            <p className="mb-2 text-white"><strong>Q: How frequently is the blockchain data updated?</strong></p>
-            <p className="mb-4 text-gray-400">A: The blockchain data displayed in our visualizer is updated in real-time, ensuring that you have access to the latest information.</p>
-          </div>
-          
-          <h3 className="text-xl font-semibold mb-4 text-white text-center">Contact Us</h3>
-          <p className="text-gray-400">If you have any further questions or encounter any issues while using our Blockchain Visualizer, please don't hesitate to contact our support team. We're here to help!</p>
-        </div>
-      </div>
+      <HelpView />
     );
   }
   

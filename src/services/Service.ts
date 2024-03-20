@@ -126,7 +126,16 @@ export const Service = {
                     status: Date.now().toString(),
                     amount: Math.floor(Math.random() * 10) + 5,
                     type: Math.floor(Math.random() * 4),
-                    fee: Math.floor(Math.random() * 100) + 1
+                    nonce: Math.floor(Math.random() * 100000) + 1,
+                    fee: Math.floor(Math.random() * 100) + 1,
+                    senders: Array.from({ length: 4 }, () => ({
+                        sender_key: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+                        amount: 6
+                    })),
+                    receivers: Array.from({ length: 8 }, () => ({
+                        receiver_key: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+                        amount: 3
+                    }))
                 });
             }, 1000);
         });

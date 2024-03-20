@@ -3,6 +3,7 @@ import ethLogo from '../Assets/eth.png';
 import Service from '../services/Service';
 import Tooltip from '@mui/material/Tooltip';
 import DialogBoxModal from './DialogBoxModal';
+import TxnView from './TxnView';
 
 interface BlockViewProps {
     block: {
@@ -62,6 +63,7 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
             try {
                 const transactonData: any[] = await Service.getTransactionData(txnId);
                 setTxnData(transactonData);
+                openTxnModal();
             } catch (error) {
                 console.error(error);
             }
@@ -77,43 +79,11 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
     const closeReplayTxnModal = () => {
         setIsTxnModalOpen(false);
     };
-
-    const handleSetTxnData = (txnData: any) => {
-        setTxnData(txnData);
-        openTxnModal();
-    };
     
     const renderTxnContent = (txnData: any) => {
         return (
-        <div>
-            <ul className="mt-4 divide-y divide-gray-400">
-            <li className="py-2 flex flex-wrap sm:flex-nowrap">
-                <span className="w-full sm:w-1/2 font-bold text-right">Transaction Hash &nbsp;:</span>
-                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.txn_hash}</span>
-            </li>
-            <li className="py-2 flex flex-wrap sm:flex-nowrap">
-                <span className="w-full sm:w-1/2 font-bold text-right">Transaction Status &nbsp;:</span>
-                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.status}</span>
-            </li>
-            <li className="py-2 flex flex-wrap sm:flex-nowrap">
-                <span className="w-full sm:w-1/2 font-bold text-right">Transaction Amount &nbsp;:</span>
-                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.amount}</span>
-            </li>
-            <li className="py-2 flex flex-wrap sm:flex-nowrap">
-                <span className="w-full sm:w-1/2 font-bold text-right">Transaction Type &nbsp;:</span>
-                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnTypes[txnData.type]}</span>
-            </li>
-            <li className="py-2 flex flex-wrap sm:flex-nowrap">
-                <span className="w-full sm:w-1/2 font-bold text-right">Transaction Fee &nbsp;:</span>
-                <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{txnData.fee}</span>
-            </li>
-            <li className="py-2 flex flex-wrap sm:flex-nowrap">
-                <span className="w-full sm:w-1/2 font-bold text-right">View More &nbsp;:</span>
-                <a href={`https://etherscan.io/tx/${txnData.txn_hash}`} target="_blank" rel="noopener noreferrer" className="w-full sm:w-1/2 font-bold text-blue-500 hover:underline text-left">&nbsp;&nbsp;View on Etherscan</a>
-            </li>
-            </ul>
-        </div>
-        );
+        <TxnView txn={txnData} />
+    );
     }
     
 
@@ -192,7 +162,7 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
                             <Tooltip title={txn} key={index}>
                                 <div
                                     className="flex items-center bg-gray-800 p-4 rounded-lg cursor-pointer"
-                                    onClick={() => handleSetTxnData(txn)}
+                                    onClick={() => handleTransactionClick(txn)}
                                 >
                                     <img src={ethLogo} alt="Ethereum Logo" className="w-6 h-6" />
                                 </div>

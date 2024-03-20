@@ -7,6 +7,7 @@ import PieChart from './components/PieChart';
 import Stream from './components/Stream';
 import Replay from './components/Replay';
 import BlockView from './components/BlockView';
+import TxnView from './components/TxnView';
 
 interface Miner {
   miner: string;
@@ -20,21 +21,13 @@ interface StatsData {
   miners: Miner[];
 }
 
-interface TransactionData {
-  txn_hash: string;
-  status: string;
-  amount: number;
-  type: number;
-  fee: number;
-}
-
 function App() {
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isTransactionOpen, setIsTransactionOpen] = useState(false);
   const [isBlockOpen, setIsBlockOpen] = useState(false);
   const [isReplayOpen, setIsReplayOpen] = useState(false);
-  const [transactionData, setTransactionData] = useState<TransactionData | null>(null);
+  const [transactionData, setTransactionData] = useState<any | null>(null);
   const [blockData, setBlockData] = useState<any | null>(null);
   const [statsData, setStatsData] = useState<StatsData>();
   
@@ -105,7 +98,7 @@ function App() {
     fetchTransactionData();
   }
   
-  const handleSetTransactionData = (txnData: TransactionData) => {
+  const handleSetTransactionData = (txnData: any) => {
     setTransactionData(txnData);
     openTransactionModal();
   }
@@ -146,36 +139,9 @@ function App() {
     );
   };
   
-  const renderTransactionContent = (transactionData: TransactionData) => {
+  const renderTransactionContent = (transactionData: any) => {
     return (
-      <div>
-        <ul className="mt-4 divide-y divide-gray-400">
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Hash &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{transactionData.txn_hash}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Status &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{transactionData.status}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Amount &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{transactionData.amount}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Type &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{transactionTypes[transactionData.type]}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">Transaction Fee &nbsp;:</span>
-            <span className="w-full sm:w-1/2 font-bold text-left">&nbsp;&nbsp;{transactionData.fee}</span>
-          </li>
-          <li className="py-2 flex flex-wrap sm:flex-nowrap">
-            <span className="w-full sm:w-1/2 font-bold text-right">View More &nbsp;:</span>
-            <a href={`https://etherscan.io/tx/${transactionData.txn_hash}`} target="_blank" rel="noopener noreferrer" className="w-full sm:w-1/2 font-bold text-blue-500 hover:underline text-left">&nbsp;&nbsp;View on Etherscan</a>
-          </li>
-        </ul>
-      </div>
+        <TxnView txn={transactionData} />
     );
   }
   

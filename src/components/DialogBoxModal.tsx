@@ -43,8 +43,8 @@ const DialogBoxModal: React.FC<DialogBoxModalProps> = ({ isOpen, title, body, bu
           </svg>
         </button>
         <div className="overflow-auto h-full">
-          <div className="flex justify-between items-center p-4">
-            <h1 className="text-xl font-bold">{title}</h1>
+          <div className="flex justify-center items-center p-4">
+            <h1 className="text-4xl font-bold">{title}</h1>
           </div>
           <div className="p-6">{body}</div>
           <div className="mt-4 flex justify-end">

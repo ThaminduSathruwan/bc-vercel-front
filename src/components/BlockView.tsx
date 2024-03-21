@@ -4,6 +4,7 @@ import Service from '../services/Service';
 import Tooltip from '@mui/material/Tooltip';
 import DialogBoxModal from './DialogBoxModal';
 import TxnView from './TxnView';
+import { toast } from 'react-toastify';
 
 interface BlockViewProps {
     block: {
@@ -23,6 +24,7 @@ interface BlockViewProps {
     };
     setBlockData: (blockData: any) => void;
     closeBlockModal: () => void;
+    setLoading: (loading: boolean) => void;
 }
 
 interface SideCar {
@@ -30,7 +32,7 @@ interface SideCar {
     size: number;
 }
 
-const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockModal }) => {
+const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockModal, setLoading }) => {
     const { block_hash, previous_block_hash, total_amount, total_fee, txn_cnt, time_stamp, miner, nonce, difficulty, height, transactions, uncles, sidecar } = block;
     const [txnData, setTxnData] = useState<any[]>([]);
     const [isTxnModalOpen, setIsTxnModalOpen] = useState(false);
@@ -44,11 +46,14 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
     const getUncleBlock = (blockId: string) => {
         const fetchBlockData = async () => {
             try {
-                const blockData: any = await Service.getBlockData(blockId);
+                setLoading(true);
+                const response = await Service.getFullBlockData(blockId);
                 closeBlockModal();
-                setBlockData(blockData);
+                setBlockData(response.data);
+                setLoading(false);
             } catch (error) {
-                console.error(error);
+                toast.error("An error occurred!", { theme: "dark" });
+                setLoading(false);
             }
         };
         
@@ -58,11 +63,14 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
     const handleTransactionClick = (txnId: string) => {
         const fetchTransactionData = async () => {
             try {
-                const transactonData: any[] = await Service.getTransactionData(txnId);
-                setTxnData(transactonData);
+                setLoading(true);
+                const response = await Service.getTransactionData(txnId);
+                setTxnData(response.data);
                 openTxnModal();
+                setLoading(false);
             } catch (error) {
-                console.error(error);
+                toast.error("An error occurred!", { theme: "dark" });
+                setLoading(false);
             }
         };
         
@@ -181,7 +189,7 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
             <DialogBoxModal
                 isOpen={isTxnModalOpen}
                 title="Transaction Details"
-                body={txnData ? renderTxnContent(txnData) : <div>Loading...</div>}
+                body={renderTxnContent(txnData) }
                 buttons={[]}
                 onClose={closeReplayTxnModal}
                 width='60%'

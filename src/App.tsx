@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import './index.css'; // Import Tailwind CSS
+import React, { useState } from 'react';
+import './index.css'; 
 import Navbar from './components/Navbar';
 import Service from './services/Service';
 import DialogBoxModal from './components/DialogBoxModal';
@@ -19,9 +19,7 @@ function App() {
   const [transactionData, setTransactionData] = useState<any | null>(null);
   const [blockData, setBlockData] = useState<any | null>(null);
   const [statsData, setStatsData] = useState<any>();
-  
-  const [transactionTypes, setTransactionTypes] = useState(["Legacy", "Crypto", "Contract", "Shared-blob"]);
-  
+    
   const openStatsModal = () => {
     const fetchStatsData = async () => {
       try {
@@ -136,45 +134,35 @@ function App() {
         isOpen={isStatsOpen}
         title="Stats"
         body={renderStatsContent(statsData)}
-        buttons={[
-          // { text: "Close", onClick: closeStatsModal },
-        ]}
+        buttons={[]}
         onClose={closeStatsModal}
       />
       <DialogBoxModal
         isOpen={isHelpOpen}
         title="Help"
         body={renderHelpContent()}
-        buttons={[
-          // { text: "Close", onClick: closeHelpModal },
-        ]}
+        buttons={[]}
         onClose = {closeHelpModal}
       />
       <DialogBoxModal
         isOpen={isTransactionOpen}
         title="Transaction Details"
         body={transactionData ? renderTransactionContent(transactionData) : <div>Loading...</div>}
-        buttons={[
-          // { text: "Close", onClick: closeTransactionModal },
-        ]}
+        buttons={[]}
         onClose={closeTransactionModal}
       />
       <DialogBoxModal
         isOpen={isBlockOpen}
         title="Block Details"
         body={blockData ? renderBlockContent(blockData) : <div>Loading...</div>}
-        buttons={[
-          // { text: "Close", onClick: closeBlockModal },
-        ]}
+        buttons={[]}
         onClose={closeBlockModal}
       />
       <DialogBoxModal
         isOpen={isReplayOpen}
-        title="Replay"
+        title=""
         body={renderReplayContent()}
-        buttons={[
-          // { text: "Close", onClick: closeBlockModal },
-        ]}
+        buttons={[]}
         onClose={closeReplayModal}
       />
     </div>

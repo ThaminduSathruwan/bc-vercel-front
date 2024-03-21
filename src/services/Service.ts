@@ -152,10 +152,11 @@ export const Service = {
                     total_tx_amount: Math.floor(Math.random() * 100) + 100,
                     total_tx_fee: Math.floor(Math.random() * 100) + 1,
                     txn_pool: Math.floor(Math.random() * 100) + 1,
-                    miners: Array.from({ length: 5 }, (_, index) => ([
-                        Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
-                        Math.floor(Math.random() * 100) + 1
-                    ]))
+                    miners: [
+                        [Math.random().toString(36).substring(2, 15), Math.floor(Math.random() * 100) + 1],
+                        [Math.random().toString(36).substring(2, 15), Math.floor(Math.random() * 100) + 1],
+                        [Math.random().toString(36).substring(2, 15), Math.floor(Math.random() * 100) + 1],
+                    ]
                 });
             }, 1000);
         });

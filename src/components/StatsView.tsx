@@ -11,7 +11,7 @@ interface StatsData {
     total_tx_amount: number;
     total_tx_fee: number;
     txn_pool: number;
-    miners: [];
+    miners: string[][];
 }
 
 const StatsView: React.FC<StatsViewProps> = ({ StatsData }) => {

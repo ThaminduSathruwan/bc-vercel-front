@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Service from "../services/Service";
 import Tooltip from "@mui/material/Tooltip";
+import { toast } from "react-toastify";
 
 interface PoolTransactionProps {
     poolTransaction: {
@@ -13,19 +14,22 @@ interface PoolTransactionProps {
     }[];
     setTransactionData: (txnData: any) => void;
     count: number;
+    setLoading: (loading: boolean) => void;
 }
 
-const TransactionPool: React.FC<PoolTransactionProps> = ({ poolTransaction, setTransactionData, count }) => {
+const TransactionPool: React.FC<PoolTransactionProps> = ({ poolTransaction, setTransactionData, count, setLoading }) => {
     const [txnTypes, setTxnTypes] = useState(["Legacy", "Crypto", "Contract", "Shared-blob"]);
-
 
     const handleTransactionClick = (txnId: string) => {
         const fetchTransactionData = async () => {
             try {
-                const transactonData: any[] = await Service.getTransactionData(txnId);
-                setTransactionData(transactonData);
+                setLoading(true);
+                const response = await Service.getTransactionData(txnId);
+                setTransactionData(response.data);
+                setLoading(false);
             } catch (error) {
-                console.error(error);
+                toast.error("An error occurred!", { theme: "dark" });
+                setLoading(false);
             }
         };
         

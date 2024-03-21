@@ -1,11 +1,13 @@
 import React from 'react';
 import './Carousel.css'; 
 import Service from '../services/Service';
+import { toast } from 'react-toastify';
 
 interface CardProps {
     title: string;
     content: Block;
     setBlockData: (blockData: any) => void;
+    setLoading: (loading: boolean) => void;
 }
 
 interface Block {
@@ -15,15 +17,18 @@ interface Block {
     txn_cnt: number;
 }
 
-const Card: React.FC<CardProps> = ({ title, content, setBlockData }) => {
+const Card: React.FC<CardProps> = ({ title, content, setBlockData, setLoading }) => {
     
     const handleViewBlock = (blockId: string) => {
         const fetchBlockData = async () => {
             try {
-                const blockData: any = await Service.getBlockData(blockId);
-                setBlockData(blockData);
+                setLoading(true);
+                const response = await Service.getFullBlockData(blockId);
+                setBlockData(response.data);
+                setLoading(false);
             } catch (error) {
-                console.error(error);
+                toast.error("An error occurred!", { theme: "dark" });
+                setLoading(false);
             }
         };
         

@@ -34,9 +34,6 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
     const { block_hash, previous_block_hash, total_amount, total_fee, txn_cnt, time_stamp, miner, nonce, difficulty, height, transactions, uncles, sidecar } = block;
     const [txnData, setTxnData] = useState<any[]>([]);
     const [isTxnModalOpen, setIsTxnModalOpen] = useState(false);
-    
-    const [txnTypes, setTxnTypes] = useState(["Legacy", "Crypto", "Contract", "Shared-blob"]);
-
 
     // Function to handle opening Etherscan link in a new window
     const openEtherscanLink = () => {
@@ -117,6 +114,10 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
                         <p className="text-lg font-semibold">{nonce}</p>
                     </div>
                     <div>
+                        <p className="text-sm text-gray-500 mb-2">Difficulty</p>
+                        <p className="text-lg font-semibold">{difficulty}</p>
+                    </div>
+                    <div>
                         <p className="text-sm text-gray-500 mb-2">Time Stamp</p>
                         <p className="text-lg font-semibold">{time_stamp}</p>
                     </div>
@@ -181,9 +182,7 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
                 isOpen={isTxnModalOpen}
                 title="Transaction Details"
                 body={txnData ? renderTxnContent(txnData) : <div>Loading...</div>}
-                buttons={[
-                // { text: "Close", onClick: closeTransactionModal },
-                ]}
+                buttons={[]}
                 onClose={closeReplayTxnModal}
                 width='60%'
                 height='60%'

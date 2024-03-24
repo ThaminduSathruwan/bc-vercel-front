@@ -56,15 +56,15 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData, setLoa
                 const end_time = current_time.toISOString();
                 setInitialTime(current_time);
                 const response = await Service.getStreamData(start_time, end_time);
-                setTransaction(response.data.transactions);
+                // setTransaction(response.data.transactions);
                 // updateCount(streamData.transactions.length);
                 const blocks = response.data.blocks;
-                addBlock(blocks);
+                // addBlock(blocks);
                 const txnsToRemove: string[] = [];
                 for (let i = 0; i < blocks.length; i++) {
                     txnsToRemove.push(blocks[i].txn_hashes);
                 }
-                setTransactionPool(prevTransactionPool => prevTransactionPool.filter(txn => !txnsToRemove[0].includes(txn.txn_hash)));
+                // setTransactionPool(prevTransactionPool => prevTransactionPool.filter(txn => !txnsToRemove[0].includes(txn.txn_hash)));
 
             } catch (error) {
                 toast.error("An error occurred!", { theme: "dark" });

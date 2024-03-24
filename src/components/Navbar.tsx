@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaChartBar, FaQuestionCircle, FaSearch } from 'react-icons/fa';
 import { MdReplayCircleFilled } from "react-icons/md";
 import Logo from "../Assets/Logo.png";
+import ThemeSwitch from "./ThemeSelector";
 
 interface NavbarProps {
   openStatsModal: () => void;
@@ -19,7 +20,7 @@ const Navbar: React.FC<NavbarProps> = ({ openStatsModal, openHelpModal, openRepl
   };
 
   return (
-    <nav className="relative z-10 flex items-center justify-between flex-wrap bg-gray-800 p-6">
+    <nav className="relative z-10 flex items-center justify-between flex-wrap bg-sky-600 dark:bg-gray-800 p-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
         <img src={Logo} alt="Site Logo" className="h-8 w-8" />
         <span className="font-semibold text-xl tracking-tight">OneBCVis</span>
@@ -50,7 +51,7 @@ const Navbar: React.FC<NavbarProps> = ({ openStatsModal, openHelpModal, openRepl
       <div className="flex items-center mt-4 lg:mt-0 lg:ml-auto">
         <div className="relative">
           <input
-            className="border rounded-lg p-1 pl-8 bg-gray-700 text-white w-64" // Adjust width here
+            className="border rounded-lg p-1 pl-8 bg-white dark:bg-gray-700 text-white w-64" // Adjust width here
             type="text"
             placeholder="Search txn hash ..."
             value={searchQuery}
@@ -61,11 +62,14 @@ const Navbar: React.FC<NavbarProps> = ({ openStatsModal, openHelpModal, openRepl
           </div>
         </div>
         <button
-          className="p-1 bg-gray-700 text-white rounded-lg ml-2"
+          className="p-1 dark:bg-gray-700 text-white rounded-lg ml-2"
           onClick={handleSearch}
         >
           <FaSearch />
         </button>
+      </div>
+      <div className="ml-4">
+        <ThemeSwitch />
       </div>
     </nav>
   );

@@ -71,8 +71,10 @@ const TxnView: React.FC<TxnViewProps> = ({ txn }) => {
     }, [senders, receivers]);
 
     return (
-        <div className="bg-gray-900 text-white p-8 rounded-lg shadow-lg">
-            <h1 className="text-4xl font-semibold mb-6">Transaction Hash : {txn_hash}</h1>
+        <div className="dark:bg-gray-900 bg-sky-400 dark:text-white p-8 rounded-lg shadow-lg">
+            <div className="bg-white dark:bg-black rounded-lg text-center">
+                <h1 className="text-xl font-bold mb-6 p-2">Transaction Hash: {txn_hash}</h1>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 <div className="flex flex-col">
                     <p className="text-sm text-gray-500 mb-2">Transaction Hash</p>
@@ -100,9 +102,9 @@ const TxnView: React.FC<TxnViewProps> = ({ txn }) => {
                 </div>
             </div>
 
-            <div className="mt-8">
+            <div className="my-8">
                 <h2 className="text-2xl font-semibold mb-4">Senders & Receivers</h2>
-                <div className="flex justify-center">
+                <div className="flex justify-center bg-gray-900 p-3 rounded-lg">
                     <Chart
                         chartType="Sankey"
                         width="100%"

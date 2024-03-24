@@ -21,8 +21,8 @@ const DialogBoxModal: React.FC<DialogBoxModalProps> = ({ isOpen, title, body, bu
   };
 
   return (
-    <div className="fixed inset-0 z-40 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-      <div className="bg-black border border-white rounded-lg relative" style={WHStyle}>
+    <div className="fixed inset-0 z-40 dark:bg-gray-800 bg-sky-800 bg-opacity-50 flex justify-center items-center">
+      <div className="dark:bg-black bg-sky-100 border border-white rounded-lg relative" style={WHStyle}>
         <button
           className="absolute top-0 right-0 p-2 focus:outline-none"
           onClick={onClose}
@@ -51,7 +51,7 @@ const DialogBoxModal: React.FC<DialogBoxModalProps> = ({ isOpen, title, body, bu
             {buttons.map((button, index) => (
               <button
                 key={index}
-                className="px-4 py-2 mr-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                className="px-4 py-2 mr-2 dark:bg-gray-500 bg-sky-500 text-white rounded hover:bg-gray-600"
                 onClick={button.onClick}
               >
                 {button.text}

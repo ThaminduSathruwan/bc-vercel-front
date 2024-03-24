@@ -25,7 +25,7 @@ const BlockCarousel: React.FC<CarouselProps> = ({ children }) => {
   } , [count]);
 
   return (
-    <div className="carousel w-1/4" style={{"height": "100px"}}>
+    <div className="carousel" style={{"width": "350px", "height": "200px"}}>
       {active > 0 && (
         <button className="nav left" onClick={() => setActive((i) => i - 1)}>
           <FaArrowLeft />

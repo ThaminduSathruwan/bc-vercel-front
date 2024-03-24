@@ -142,7 +142,7 @@ function App() {
   }
   
   return (
-    <div className="App bg-black text-white w-screen h-screen"> 
+    <div className="App bg-zinc-100 dark:bg-black dark:text-white w-screen h-screen"> 
       <Navbar openStatsModal={openStatsModal} openHelpModal={openHelpModal} onSearch={onSearch} openReplayModal={openReplayModal} />
       <Stream setTransactionData={handleSetTransactionData} setBlockData={handleSetBlockData} setLoading={setLoading} />
       <ToastContainer />

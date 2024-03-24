@@ -1,14 +1,3 @@
-body {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background-image: linear-gradient(45deg, #8B5CF6, #EC4899);
-    font-family: 'Montserrat', sans-serif;
-}
-
 * {
     box-sizing: border-box;
 }
@@ -30,21 +19,21 @@ body {
 }
 
 .card {
-    width: 100%;
-    height: 100%;
-    padding: 1.25rem;
-    background-color: hsl(280deg, 40%, calc(100% - var(--abs-offset) * 50%));
+    /* width: 100%;
+    height: 100%; */
+    padding: 0.5rem;
+    /* background-color: hsl(280deg, 40%, calc(100% - var(--abs-offset) * 50%));
     border-radius: 1rem;
     color: #9CA3AF;
-    text-align: justify;
+    text-align: justify; */
     transition: all 0.3s ease-out;
 
-    h2 {
+    /* h2 {
         text-align: center;
         font-weight: bold;
         margin: 0 0 0.7em;
         color: #1F2937;
-    }
+    } */
 
     p,
     h2 {
@@ -55,7 +44,7 @@ body {
 
 .nav {
     color: white;
-    font-size: 5rem;
+    font-size: 3rem;
     position: absolute;
     display: flex;
     align-items: center;

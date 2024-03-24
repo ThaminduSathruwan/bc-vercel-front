@@ -130,7 +130,7 @@ const Replay: React.FC<ReplayProps> = ({setLoading}) => {
 
     return (
         <div className="">
-            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-gray-800 rounded-lg shadow-lg w-auto p-2">
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 dark:bg-gray-800 bg-sky-800 rounded-lg shadow-lg w-auto p-2">
                 <form onSubmit={(e) => e.preventDefault()} className="flex flex-col lg:flex-row gap-4 items-center">
                     <label htmlFor="start-time" className="text-white text-lg font-bold">Start Time:</label>
                     <input
@@ -138,7 +138,7 @@ const Replay: React.FC<ReplayProps> = ({setLoading}) => {
                         id="start-time"
                         value={startTime}
                         onChange={handleStartTimeChange}
-                        className="px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none dark:bg-gray-900 dark:text-gray-300"
+                        className="px-4 py-2 rounded-lg bg-sky-900 text-white focus:outline-none dark:bg-gray-900 dark:text-gray-300"
                     />
                     <button type="submit" onClick={replayTransactions} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none">
                         Replay

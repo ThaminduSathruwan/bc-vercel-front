@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Service from '../services/Service';
 import Transaction from './Transaction';
 import TransactionPool from './TransactionPool';
@@ -7,8 +7,13 @@ import Card from './Card';
 import DialogBoxModal from './DialogBoxModal';
 import BlockView from './BlockView';
 import TxnView from './TxnView';
+import { toast } from 'react-toastify';
 
-const Replay: React.FC = () => {
+interface ReplayProps {
+    setLoading: (value: boolean) => void;
+}
+
+const Replay: React.FC<ReplayProps> = ({setLoading}) => {
     const [startTime, setStartTime] = useState('');
     const [replayedTransactions, setReplayedTransactions] = useState<any[]>([]);
     const [replayedBlocks, setReplayedBlocks] = useState<any[]>([]);
@@ -38,7 +43,7 @@ const Replay: React.FC = () => {
     const replayTransactions = async () => {
         try {
             if (startTime === '') {
-                console.error('Start time is required.');
+                toast.error("Start time is required.", { theme: "dark" });
                 return;
             }
             
@@ -65,22 +70,23 @@ const Replay: React.FC = () => {
 
             setIntervalId(id);
         } catch (error) {
-            console.error(error);
+            toast.error("An error occurred!", { theme: "dark" });
         }
     };
 
     const fetchStreamData = async (start_time: string, end_time: string) => {
         try {
             const response = await Service.getStreamData(start_time, end_time);
-            setReplayedTransactions(response.transactions);
-            addBlocks(response.blocks);
+            setReplayedTransactions(response.data.transactions);
+            const blocks = response.data.blocks;
+            addBlocks(blocks);
             const txnsToRemove: string[] = [];
-                for (let i = 0; i < response.blocks.length; i++) {
-                    txnsToRemove.push(response.blocks[i].txn_hashes);
+                for (let i = 0; i < blocks.length; i++) {
+                    txnsToRemove.push(blocks[i].txn_hashes);
                 }
             setReplayTransactionPool(prevReplayTransactionPool => prevReplayTransactionPool.filter(txn => !txnsToRemove[0].includes(txn.txn_hash)));
         } catch (error) {
-            console.error(error);
+            toast.error("An error occurred!", { theme: "dark" });
         }
     };
     
@@ -99,7 +105,7 @@ const Replay: React.FC = () => {
     
     const renderBlockContent = (blockData: any) => {
         return (
-            <BlockView block={blockData} setBlockData={handleSetBlockData} closeBlockModal={closeReplayBlockModal} />
+            <BlockView block={blockData} setBlockData={handleSetBlockData} closeBlockModal={closeReplayBlockModal} setLoading={setLoading}/>
         );
     }
     
@@ -140,7 +146,7 @@ const Replay: React.FC = () => {
                 </form>
             </div>
             <Transaction transaction={replayedTransactions} addTransactionToPool={addTransactionToReplayPool} />
-            <TransactionPool poolTransaction={replayTransactionPool} setTransactionData={handleSetTxnData} count={0} />
+            <TransactionPool poolTransaction={replayTransactionPool} setTransactionData={handleSetTxnData} count={0} setLoading={setLoading}/>
             {replayedBlocks.length === 0 && (
                 <div className='flex items-center justify-center mt-8'>
                     <BlockCarousel children={undefined} />
@@ -155,6 +161,7 @@ const Replay: React.FC = () => {
                                 title={b.block_hash}
                                 content={b}
                                 setBlockData={handleSetBlockData}
+                                setLoading={setLoading}
                             />
                         ))}
                     </BlockCarousel>
@@ -164,9 +171,7 @@ const Replay: React.FC = () => {
                 isOpen={isTxnModalOpen}
                 title="Transaction Details"
                 body={replayTxnData ? renderTxnContent(replayTxnData) : <div>Loading...</div>}
-                buttons={[
-                // { text: "Close", onClick: closeTransactionModal },
-                ]}
+                buttons={[]}
                 onClose={closeReplayTxnModal}
                 width='60%'
                 height='60%'
@@ -175,9 +180,7 @@ const Replay: React.FC = () => {
                 isOpen={isBlockModalOpen}
                 title="Block Details"
                 body={replayBlockData ? renderBlockContent(replayBlockData) : <div>Loading...</div>}
-                buttons={[
-                // { text: "Close", onClick: closeBlockModal },
-                ]}
+                buttons={[]}
                 onClose={closeReplayBlockModal}
                 width='60%'
                 height='60%'

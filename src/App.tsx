@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+
 import './index.css'; 
-import Navbar from './components/Navbar';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Service from './services/Service';
+
+// import components
+import Navbar from './components/Navbar';
 import DialogBoxModal from './components/DialogBoxModal';
 import Stream from './components/Stream';
 import Replay from './components/Replay';
@@ -9,6 +15,7 @@ import BlockView from './components/BlockView';
 import TxnView from './components/TxnView';
 import StatsView from './components/StatsView';
 import HelpView from './components/HelpView';
+import Loading from './components/Loading';
 
 function App() {
   const [isStatsOpen, setIsStatsOpen] = useState(false);
@@ -19,17 +26,19 @@ function App() {
   const [transactionData, setTransactionData] = useState<any | null>(null);
   const [blockData, setBlockData] = useState<any | null>(null);
   const [statsData, setStatsData] = useState<any>();
+  const [loading, setLoading] = useState(false);
     
   const openStatsModal = () => {
     const fetchStatsData = async () => {
       try {
-        const start_time = new Date().toISOString();
-        const response = await Service.getStatsData(start_time);
-        const statsData = response;
-        setStatsData(statsData);
+        setLoading(true);
+        const response = await Service.getStatsData();
+        setStatsData(response.data);
         setIsStatsOpen(true);
+        setLoading(false);
       } catch (error) {
-        console.error(error);
+        toast.error("An error occurred!", { theme: "dark" });
+        setLoading(false);
       }
     }
     
@@ -73,14 +82,21 @@ function App() {
   }
   
   const onSearch = (searchQuery: string) => {
+    if (searchQuery.length === 0) {
+      toast.error("Please enter a txn hash!", { theme: "dark" });
+      return;
+    }
     const fetchTransactionData = async () => {
-            try {
-              const transactonData = await Service.getTransactionData(searchQuery);
-              handleSetTransactionData(transactonData);
-            } catch (error) {
-              console.error(error);
-            }
-        };
+      try {
+        setLoading(true);
+        const response = await Service.getTransactionData(searchQuery);
+        handleSetTransactionData(response.data);
+        setLoading(false);
+      } catch (error) {
+        toast.error("An error occurred!", { theme: "dark" });
+        setLoading(false);
+      }
+    };
         
     fetchTransactionData();
   }
@@ -109,7 +125,7 @@ function App() {
   
   const renderBlockContent = (blockData: any) => {
     return (
-      <BlockView block={blockData} setBlockData={handleSetBlockData} closeBlockModal={closeBlockModal} />
+      <BlockView block={blockData} setBlockData={handleSetBlockData} closeBlockModal={closeBlockModal} setLoading={setLoading}/>
     );
   }
 
@@ -121,14 +137,16 @@ function App() {
   
   const renderReplayContent = () => {
     return (
-      <Replay />
+      <Replay setLoading={setLoading}/>
     );
   }
   
   return (
-    <div className="App bg-black text-white w-screen h-screen"> {/* Use overflow-hidden to prevent scrolling */}
-      <Navbar openStatsModal={openStatsModal} openHelpModal={openHelpModal} onSearch={onSearch} openReplayModal={openReplayModal}/>
-      <Stream setTransactionData={handleSetTransactionData} setBlockData={handleSetBlockData}/>
+    <div className="App bg-black text-white w-screen h-screen"> 
+      <Navbar openStatsModal={openStatsModal} openHelpModal={openHelpModal} onSearch={onSearch} openReplayModal={openReplayModal} />
+      <Stream setTransactionData={handleSetTransactionData} setBlockData={handleSetBlockData} setLoading={setLoading} />
+      <ToastContainer />
+      {loading ? <Loading /> : null}
       {/* Dialog Boxes */}
       <DialogBoxModal
         isOpen={isStatsOpen}

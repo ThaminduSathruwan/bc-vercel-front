@@ -52,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({ openStatsModal, openHelpModal, openRepl
           <input
             className="border rounded-lg p-1 pl-8 bg-gray-700 text-white w-64" // Adjust width here
             type="text"
-            placeholder="Search txn_id ..."
+            placeholder="Search txn hash ..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />

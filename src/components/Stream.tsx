@@ -4,36 +4,15 @@ import Transaction from "./Transaction";
 import BlockCarousel from "./BlockCarousel";
 import Card from "./Card";
 import TransactionPool from "./TransactionPool";
+import { toast } from "react-toastify";
 
 interface StreamProps {
     setTransactionData: (txnData: any) => void;
     setBlockData: (blockData: any) => void;
+    setLoading: (loading: boolean) => void;
 }
 
-interface StreamData {
-     transactions: TransactionData;
-     blocks: BlockData;
-}
-
-interface TransactionData {
-    txn_hash: string;
-    status: string;
-    amount: number;
-    type: number;
-    fee: number;
-}
-
-interface BlockData {
-    block_hash: string;
-    previous_block_hash: string;
-    txn_hashes: string[];
-    total_amount: number;
-    total_fee: number;
-    txn_cnt: number;
-    time_stamp: string;
-}
-
-const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData}) => {
+const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData, setLoading}) => {
     const [transaction, setTransaction] = useState<any[]>([]);
     const [block, setBlock] = useState<any[]>([]);
     const [isInitialBlocksSet, setIsInitialBlocksSet] = useState<boolean>(false);
@@ -56,10 +35,10 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData}) => {
     useEffect(() => {
         const fetchInitialBlocks = async () => {
             try {
-                const blocks = await Service.getInitialBlocks();
-                addBlock(blocks);
+                const response = await Service.getInitialBlocks();
+                addBlock(response.data.blocks);
             } catch (error) {
-                console.error(error);
+                toast.error("An error occurred!", { theme: "dark" });
             }
         }
         
@@ -76,18 +55,19 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData}) => {
                 const start_time = initialTime.toISOString();
                 const end_time = current_time.toISOString();
                 setInitialTime(current_time);
-                const streamData = await Service.getStreamData(start_time, end_time);
-                setTransaction(streamData.transactions);
-                updateCount(streamData.transactions.length);
-                addBlock(streamData.blocks);
+                const response = await Service.getStreamData(start_time, end_time);
+                setTransaction(response.data.transactions);
+                // updateCount(streamData.transactions.length);
+                const blocks = response.data.blocks;
+                addBlock(blocks);
                 const txnsToRemove: string[] = [];
-                for (let i = 0; i < streamData.blocks.length; i++) {
-                    txnsToRemove.push(streamData.blocks[i].txn_hashes);
+                for (let i = 0; i < blocks.length; i++) {
+                    txnsToRemove.push(blocks[i].txn_hashes);
                 }
                 setTransactionPool(prevTransactionPool => prevTransactionPool.filter(txn => !txnsToRemove[0].includes(txn.txn_hash)));
 
             } catch (error) {
-                console.error(error);
+                toast.error("An error occurred!", { theme: "dark" });
             }
         };
         
@@ -100,7 +80,7 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData}) => {
     return (
         <div className="container mx-auto">
             <Transaction transaction={transaction} addTransactionToPool={addTransactionToPool} />
-            <TransactionPool poolTransaction={transactionPool} setTransactionData={setTransactionData} count={count}/>
+            <TransactionPool poolTransaction={transactionPool} setTransactionData={setTransactionData} count={count} setLoading={setLoading}/>
             <div className='flex items-center justify-center mt-8'>
                 <BlockCarousel>
                     {block.map((b, index) => (
@@ -109,6 +89,7 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData}) => {
                             title={b.block_hash}
                             content={b}
                             setBlockData={setBlockData}
+                            setLoading={setLoading}
                         />
                     ))}
                 </BlockCarousel>

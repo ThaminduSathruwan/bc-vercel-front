@@ -1,4 +1,3 @@
-import React from "react";
 import { render } from "@testing-library/react";
 import StatsView from "../components/StatsView";
 
@@ -14,31 +13,30 @@ describe("StatsView", () => {
 			["Miner 2", "200"],
 		],
 	};
+
+	test("renders with provided stats data", () => {
+		const { getByText } = render(<StatsView StatsData={statsData} />);
+
+		expect(
+			getByText("Transaction Count (Last 1 Hour)")
+		).toBeInTheDocument();
+		expect(getByText(statsData.transaction_count)).toBeInTheDocument();
+
+		expect(getByText("Block Count (Last 1 Hour)")).toBeInTheDocument();
+		expect(getByText(statsData.block_count)).toBeInTheDocument();
+
+		expect(
+			getByText("Total Transaction Amount (Last 1 Hour)")
+		).toBeInTheDocument();
+		expect(getByText(statsData.total_tx_amount)).toBeInTheDocument();
+
+		expect(
+			getByText("Total Transaction Fee (Last 1 Hour)")
+		).toBeInTheDocument();
+		expect(getByText(statsData.total_tx_fee)).toBeInTheDocument();
+
+		expect(getByText("Transaction Pool")).toBeInTheDocument();
+		expect(getByText(statsData.txn_pool)).toBeInTheDocument();
+		// Test Google Chart
+	});
 });
-
-// 	test("renders with provided stats data", () => {
-// 		// const { getByText } = render(<StatsView StatsData={statsData} />);
-
-// 		expect(
-// 			getByText("Transaction Count (Last 1 Hour)")
-// 		).toBeInTheDocument();
-// 		expect(getByText("10")).toBeInTheDocument();
-
-// 		expect(getByText("Block Count (Last 1 Hour)")).toBeInTheDocument();
-// 		expect(getByText("20")).toBeInTheDocument();
-
-// 		expect(
-// 			getByText("Total Transaction Amount (Last 1 Hour)")
-// 		).toBeInTheDocument();
-// 		expect(getByText("1000")).toBeInTheDocument();
-
-// 		expect(
-// 			getByText("Total Transaction Fee (Last 1 Hour)")
-// 		).toBeInTheDocument();
-// 		expect(getByText("50")).toBeInTheDocument();
-
-// 		expect(getByText("Transaction Pool")).toBeInTheDocument();
-// 		expect(getByText("5")).toBeInTheDocument();
-// 		expect(getByText("Top Miners (Last 1000 Blocks)")).toBeInTheDocument();
-// 	});
-// });

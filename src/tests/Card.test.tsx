@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import Card from "../components/Card";
 
@@ -15,7 +14,7 @@ describe("Card Component", () => {
 			setBlockData: jest.fn(),
 		};
 
-		const { getByText, debug } = render(<Card {...dummyProps} />);
+		const { getByText } = render(<Card {...dummyProps} />);
 		expect(getByText("BLOCK : Dummy Title")).toBeInTheDocument();
 		expect(getByText("100")).toBeInTheDocument();
 		expect(getByText("5")).toBeInTheDocument();

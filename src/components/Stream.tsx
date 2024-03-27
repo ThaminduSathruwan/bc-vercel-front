@@ -56,15 +56,15 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData, setLoa
                 const end_time = current_time.toISOString();
                 setInitialTime(current_time);
                 const response = await Service.getStreamData(start_time, end_time);
-                // setTransaction(response.data.transactions);
+                setTransaction(response.data.transactions);
                 // updateCount(streamData.transactions.length);
                 const blocks = response.data.blocks;
-                // addBlock(blocks);
+                addBlock(blocks);
                 const txnsToRemove: string[] = [];
                 for (let i = 0; i < blocks.length; i++) {
                     txnsToRemove.push(blocks[i].txn_hashes);
                 }
-                // setTransactionPool(prevTransactionPool => prevTransactionPool.filter(txn => !txnsToRemove[0].includes(txn.txn_hash)));
+                setTransactionPool(prevTransactionPool => prevTransactionPool.filter(txn => !txnsToRemove[0].includes(txn.txn_hash)));
 
             } catch (error) {
                 toast.error("An error occurred!", { theme: "dark" });
@@ -78,10 +78,12 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData, setLoa
     }, [initialTime]);
     
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <Transaction transaction={transaction} addTransactionToPool={addTransactionToPool} />
-            <TransactionPool poolTransaction={transactionPool} setTransactionData={setTransactionData} count={count} setLoading={setLoading}/>
-            <div className='flex items-center justify-center mt-8'>
+            <TransactionPool poolTransaction={transactionPool} setTransactionData={setTransactionData} count={count} setLoading={setLoading} />
+            
+            {/* Flexbox container to center the BlockCarousel */}
+            <div className="flex items-center justify-center mt-8">
                 <BlockCarousel>
                     {block.map((b, index) => (
                         <Card

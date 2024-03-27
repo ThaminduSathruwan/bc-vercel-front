@@ -103,7 +103,7 @@ export const Service = {
             setTimeout(() => {
                 resolve({
                     data: {
-                        blocks: Array.from({ length: 5 }, () => Service.generateRandomBlock())
+                        blocks: Array.from({ length: 7 }, () => Service.generateRandomBlock())
                     }
                 });
             }, 1000);

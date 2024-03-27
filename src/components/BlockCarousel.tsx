@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import useScreenWidth from './useScreenWidth';
 import './Carousel.css';
 
 interface CarouselProps {
   children: React.ReactNode;
 }
 
-const MAX_VISIBILITY = 3;
-
 const BlockCarousel: React.FC<CarouselProps> = ({ children }) => {
   const [active, setActive] = useState(-1);
   const count = React.Children.count(children);
+  const screenWidth = useScreenWidth();
+  
+  const MAX_VISIBILITY = screenWidth > 768 ? 3 : 1;
   
   useEffect(() => {
     setActive((prevActive) => {
@@ -25,9 +27,9 @@ const BlockCarousel: React.FC<CarouselProps> = ({ children }) => {
   } , [count]);
 
   return (
-    <div className="carousel" style={{"width": "350px", "height": "200px"}}>
+    <div className="carousel md:w-80 lg:w-80 w-40 lg:h-60 md:h-60 h-40">
       {active > 0 && (
-        <button className="nav left" onClick={() => setActive((i) => i - 1)}>
+        <button className="nav left md:text-lg lg:text-lg text-xs" onClick={() => setActive((i) => i - 1)}>
           <FaArrowLeft />
         </button>
       )}
@@ -48,7 +50,7 @@ const BlockCarousel: React.FC<CarouselProps> = ({ children }) => {
         </div>
       ))}
       {active < count - 1 && (
-        <button className="nav right" onClick={() => setActive((i) => i + 1)}>
+        <button className="nav right md:text-lg lg:text-lg text-xs" onClick={() => setActive((i) => i + 1)}>
           <FaArrowRight />
         </button>
       )}

@@ -21,7 +21,7 @@ const DialogBoxModal: React.FC<DialogBoxModalProps> = ({ isOpen, title, body, bu
   };
 
   return (
-    <div className="fixed inset-0 z-40 dark:bg-gray-800 bg-sky-800 bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 z-40 dark:bg-gray-800 bg-sky-800 bg-opacity-50 dark:bg-opacity-50 flex justify-center items-center">
       <div className="dark:bg-black bg-sky-100 border border-white rounded-lg relative" style={WHStyle}>
         <button
           className="absolute top-0 right-0 p-2 focus:outline-none"

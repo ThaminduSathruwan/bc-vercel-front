@@ -28,7 +28,7 @@ function ThemeSwitch() {
       checked={enabled}
       onChange={handleThemeChange}
       className={classNames(
-        enabled ? 'bg-gray-600' : 'bg-blue-600',
+        enabled ? 'bg-gray-600' : 'bg-sky-400',
         'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out'
       )}
     >
@@ -48,7 +48,7 @@ function ThemeSwitch() {
           )}
           aria-hidden='true'
         >
-          <IoSunny className='h-3 w-3 text-blue-400' />
+          <IoMoon className='h-3 w-3 text-gray-400' />
         </span>
         <span
           className={classNames(
@@ -59,7 +59,7 @@ function ThemeSwitch() {
           )}
           aria-hidden='true'
         >
-          <IoMoon className='h-3 w-3 text-gray-600' />
+          <IoSunny className='h-3 w-3 text-sky-400' />
         </span>
       </span>
     </Switch>

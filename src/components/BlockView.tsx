@@ -87,13 +87,13 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
     
     const renderTxnContent = (txnData: any) => {
         return (
-        <TxnView txn={txnData} />
-    );
+            <TxnView txn={txnData} />
+        );
     }
     
 
     return (
-        <div className="mx-auto bg-sky-400 dark:bg-gray-900 dark:text-white shadow-lg rounded-lg overflow-hidden">
+        <div className="mx-auto bg-sky-100 dark:bg-gray-900 dark:text-white rounded-lg overflow-hidden">
             <div className="p-8">
                 <div className="bg-white dark:bg-black rounded-lg text-center">
                     <h1 className="text-xl font-bold mb-6 p-2">Block Hash: {block_hash}</h1>
@@ -142,7 +142,7 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
                         <h2 className="text-2xl font-semibold mb-4">Uncles</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             {uncles.map((uncle, index) => (
-                                <div key={index} className="dark:bg-gray-700 bg-sky-200 p-4 rounded-lg uncle-block hover:bg-gray-400" onClick={() => getUncleBlock(uncle)}>
+                                <div key={index} className="dark:bg-gray-700 bg-sky-400 p-4 rounded-lg uncle-block hover:bg-gray-400" onClick={() => getUncleBlock(uncle)}>
                                     <span className="text-sm font-semibold cursor-pointer">{uncle}</span>
                                 </div>
                             ))}
@@ -155,7 +155,7 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
                         <h2 className="text-2xl font-semibold mb-4">Sidecar</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             {sidecar.map((sc, index) => (
-                                <div key={index} className="dark:bg-gray-700 bg-sky-200 p-4 rounded-lg">
+                                <div key={index} className="dark:bg-gray-700 bg-sky-400 p-4 rounded-lg">
                                     <ul className="list-disc list-inside">
                                         <li className="text-sm font-semibold">ID: {sc.id}</li>
                                         <li className="text-sm font-semibold">Size: {sc.size}</li>
@@ -172,7 +172,7 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
                         {transactions.map((txn, index) => (
                             <Tooltip title={txn} key={index}>
                                 <div
-                                    className="flex items-center dark:bg-gray-700 bg-sky-200 p-4 rounded-lg cursor-pointer"
+                                    className="flex items-center dark:bg-gray-700 bg-sky-400 p-4 rounded-lg cursor-pointer"
                                     onClick={() => handleTransactionClick(txn)}
                                 >
                                     <img src={ethLogo} alt="Ethereum Logo" className="w-6 h-6" />

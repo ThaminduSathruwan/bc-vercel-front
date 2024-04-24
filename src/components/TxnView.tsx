@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Chart from "react-google-charts";
+import { MdContentCopy } from "react-icons/md";
 
 interface TxnViewProps {
     txn: {
@@ -12,6 +13,7 @@ interface TxnViewProps {
         senders: Sender[] | null;
         receivers: Receiver[] | null;
     };
+    txnTypes: string[];
 }
 
 interface Sender {
@@ -24,14 +26,12 @@ interface Receiver {
     receiver_key: string;
 }
 
-const TxnView: React.FC<TxnViewProps> = ({ txn }) => {
+const TxnView: React.FC<TxnViewProps> = ({ txn, txnTypes }) => {
     const { txn_hash, status, amount, type, nonce, fee, senders, receivers } = txn;
     
-    const [txnTypes, setTxnTypes] = useState(["Legacy", "Crypto", "Contract", "Shared-blob"]);
-
     const [data, setData] = useState<(number | string)[][]>([["From", "To", "Amount"]]);
 
-    const options = {
+    const optionsDarkTheme = {
         sankey: {
             node: {
                 colors: ["#FFA500", "#32CD32"],
@@ -48,6 +48,42 @@ const TxnView: React.FC<TxnViewProps> = ({ txn }) => {
         },
         enableInteractivity: false,
     };
+    
+    const optionsLightTheme = {
+        sankey: {
+            node: {
+                colors: ["#d6336c", "#f59e0b"], 
+                label: {
+                    fontName: "Arial",
+                    fontSize: 14,
+                    color: "#34568B", 
+                },
+            },
+            link: {
+                colorMode: "gradient",
+                colors: ["#d6336c", "#f59e0b"], 
+            },
+        },
+        enableInteractivity: true, 
+    };
+    
+    const optionsLightThemeBlueVariants = {
+    sankey: {
+        node: {
+            colors: ["#1E90FF", "#00CED1"], 
+            label: {
+                fontName: "Arial",
+                fontSize: 14,
+                color: "#000080", 
+            },
+        },
+        link: {
+            colorMode: "gradient",
+            colors: ["#1E90FF", "#00CED1"], 
+        },
+    },
+    enableInteractivity: true,
+};
     
     const openEtherscanLink = () => {
         const etherscanURL = `https://etherscan.io/tx/${txn_hash}`;
@@ -71,45 +107,65 @@ const TxnView: React.FC<TxnViewProps> = ({ txn }) => {
     }, [senders, receivers]);
 
     return (
-        <div className="bg-gray-900 text-white p-8 rounded-lg shadow-lg">
-            <h1 className="text-4xl font-semibold mb-6">Transaction Hash : {txn_hash}</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <div className="dark:bg-gray-900 bg-sky-100 text-blue-950 dark:text-white p-4 lg:p-8 rounded-lg">
+            {/* <div className="bg-white dark:bg-black rounded-lg text-center">
+                <h1 className="text-xl font-bold mb-6 p-2">Transaction Hash: {txn_hash}</h1>
+            </div> */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-8">
                 <div className="flex flex-col">
-                    <p className="text-sm text-gray-500 mb-2">Transaction Hash</p>
-                    <p className="text-lg font-semibold">{txn_hash}</p>
+                    <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Transaction Hash</p>
+                    <div className="flex items-center gap-2">
+                        <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={txn_hash} />
+                        <button onClick={() => navigator.clipboard.writeText(txn_hash)}>
+                            <MdContentCopy />
+                        </button>
+                    </div>
                 </div>
                 <div className="flex flex-col">
-                    <p className="text-sm text-gray-500 mb-2">Status</p>
-                    <p className="text-lg font-semibold">{status}</p>
+                    <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Status</p>
+                    <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={status} />
                 </div>
                 <div className="flex flex-col">
-                    <p className="text-sm text-gray-500 mb-2">Amount</p>
-                    <p className="text-lg font-semibold">{amount}</p>
+                    <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Amount</p>
+                    <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={amount} />
                 </div>
                 <div className="flex flex-col">
-                    <p className="text-sm text-gray-500 mb-2">Type</p>
-                    <p className="text-lg font-semibold">{txnTypes[type]}</p>
+                    <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Type</p>
+                    <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={txnTypes[type]} />
                 </div>
                 <div className="flex flex-col">
-                    <p className="text-sm text-gray-500 mb-2">Nonce</p>
-                    <p className="text-lg font-semibold">{nonce}</p>
+                    <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Nonce</p>
+                    <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={nonce} />
                 </div>
                 <div className="flex flex-col">
-                    <p className="text-sm text-gray-500 mb-2">Fee</p>
-                    <p className="text-lg font-semibold">{fee}</p>
+                    <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Fee</p>
+                    <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={fee} />
                 </div>
             </div>
 
-            <div className="mt-8">
+            <div className="my-8">
                 <h2 className="text-2xl font-semibold mb-4">Senders & Receivers</h2>
-                <div className="flex justify-center">
-                    <Chart
-                        chartType="Sankey"
-                        width="100%"
-                        height="300px"
-                        data={data}
-                        options={options}
-                    />
+                <div className="flex justify-center dark:block hidden">
+                    <div style={{ overflowX: 'auto' }}>
+                        <Chart
+                            chartType="Sankey"
+                            width="500px"
+                            height="300px"
+                            data={data}
+                            options={optionsDarkTheme}
+                        />
+                    </div>
+                </div>
+                <div className="flex justify-center dark:hidden">
+                    <div style={{ overflowX: 'auto' }}>
+                        <Chart
+                            chartType="Sankey"
+                            width="500px"
+                            height="300px"
+                            data={data}
+                            options={optionsLightTheme}
+                        />
+                    </div>
                 </div>
             </div>
             <div className="flex justify-center">

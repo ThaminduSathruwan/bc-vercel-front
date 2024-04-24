@@ -33,6 +33,10 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData, setLoa
         setBlock(prevBlock => [...prevBlock, ...newBlocks]);
     };
     
+    const removeBlock = () => {
+         setBlock(prevBlock => prevBlock.slice(1)); // Removes the first block
+    }
+    
     useEffect(() => {
         const fetchInitialBlocks = async () => {
             try {
@@ -53,8 +57,8 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData, setLoa
         const fetchStreamData = async () => {
             try {
                 const current_time = new Date();
-                const start_time = initialTime.toISOString();
-                const end_time = current_time.toISOString();
+                const start_time = initialTime.toISOString().replace("T", " ").replace("Z", "");
+                const end_time = current_time.toISOString().replace("T", " ").replace("Z", "");
                 setInitialTime(current_time);
                 const response = await Service.getStreamData(start_time, end_time);
                 setTransaction(response.data.transactions);
@@ -72,7 +76,7 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData, setLoa
             }
         };
         
-        const intervalId = setInterval(fetchStreamData, 10000);
+        const intervalId = setInterval(fetchStreamData, 1000);
         return () => {
             clearInterval(intervalId);
         };

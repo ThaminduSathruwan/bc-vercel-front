@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Chart from "react-google-charts";
+import { MdContentCopy } from "react-icons/md";
 
 interface TxnViewProps {
     txn: {
@@ -107,55 +108,64 @@ const TxnView: React.FC<TxnViewProps> = ({ txn, txnTypes }) => {
 
     return (
         <div className="dark:bg-gray-900 bg-sky-100 text-blue-950 dark:text-white p-4 lg:p-8 rounded-lg">
-            <div className="bg-white dark:bg-black rounded-lg text-center">
+            {/* <div className="bg-white dark:bg-black rounded-lg text-center">
                 <h1 className="text-xl font-bold mb-6 p-2">Transaction Hash: {txn_hash}</h1>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            </div> */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-8">
                 <div className="flex flex-col">
                     <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Transaction Hash</p>
-                    <p className="text-lg font-semibold">{txn_hash}</p>
+                    <div className="flex items-center gap-2">
+                        <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={txn_hash} />
+                        <button onClick={() => navigator.clipboard.writeText(txn_hash)}>
+                            <MdContentCopy />
+                        </button>
+                    </div>
                 </div>
                 <div className="flex flex-col">
                     <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Status</p>
-                    <p className="text-lg font-semibold">{status}</p>
+                    <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={status} />
                 </div>
                 <div className="flex flex-col">
                     <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Amount</p>
-                    <p className="text-lg font-semibold">{amount}</p>
+                    <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={amount} />
                 </div>
                 <div className="flex flex-col">
                     <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Type</p>
-                    <p className="text-lg font-semibold">{txnTypes[type]}</p>
+                    <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={txnTypes[type]} />
                 </div>
                 <div className="flex flex-col">
                     <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Nonce</p>
-                    <p className="text-lg font-semibold">{nonce}</p>
+                    <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={nonce} />
                 </div>
                 <div className="flex flex-col">
                     <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Fee</p>
-                    <p className="text-lg font-semibold">{fee}</p>
+                    <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={fee} />
                 </div>
             </div>
 
             <div className="my-8">
                 <h2 className="text-2xl font-semibold mb-4">Senders & Receivers</h2>
                 <div className="flex justify-center dark:block hidden">
-                    <Chart
-                        chartType="Sankey"
-                        width="100%"
-                        height="300px"
-                        data={data}
-                        options={optionsDarkTheme}
-                    />
+                    <div style={{ overflowX: 'auto' }}>
+                        <Chart
+                            chartType="Sankey"
+                            width="500px"
+                            height="300px"
+                            data={data}
+                            options={optionsDarkTheme}
+                        />
+                    </div>
                 </div>
                 <div className="flex justify-center dark:hidden">
-                    <Chart
-                        chartType="Sankey"
-                        width="100%"
-                        height="300px"
-                        data={data}
-                        options={optionsLightTheme}
-                    />
+                    <div style={{ overflowX: 'auto' }}>
+                        <Chart
+                            chartType="Sankey"
+                            width="500px"
+                            height="300px"
+                            data={data}
+                            options={optionsLightTheme}
+                        />
+                    </div>
                 </div>
             </div>
             <div className="flex justify-center">

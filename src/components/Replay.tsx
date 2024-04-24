@@ -51,7 +51,7 @@ const Replay: React.FC<ReplayProps> = ({setLoading, txnTypes}) => {
             setReplayedBlocks([]); // Clear replayed blocks
             setReplayTransactionPool([]); // Clear replay transaction pool
                         
-            const endDateTime = new Date(new Date(startTime).getTime() + 0.25 * 60000); // 5 minutes
+            const endDateTime = new Date(new Date(startTime).getTime() + 1 * 60000); // 5 minutes
             setEndTime(endDateTime.toISOString());
 
             let currentStartTime = new Date(startTime);
@@ -64,7 +64,7 @@ const Replay: React.FC<ReplayProps> = ({setLoading, txnTypes}) => {
 
                 const endOfWindow = new Date(currentStartTime);
                 endOfWindow.setSeconds(endOfWindow.getSeconds() + 5);
-                await fetchStreamData(currentStartTime.toISOString(), endOfWindow.toISOString());
+                await fetchStreamData(currentStartTime.toISOString().replace("T", " ").replace("Z", ""), endOfWindow.toISOString().replace("T", " ").replace("Z", ""));
                 currentStartTime = endOfWindow;
             }, 1000);
 
@@ -174,8 +174,6 @@ const Replay: React.FC<ReplayProps> = ({setLoading, txnTypes}) => {
                 body={replayTxnData ? renderTxnContent(replayTxnData) : <div>Loading...</div>}
                 buttons={[]}
                 onClose={closeReplayTxnModal}
-                width='60%'
-                height='60%'
             />
             <Modal
                 isOpen={isBlockModalOpen}
@@ -183,8 +181,6 @@ const Replay: React.FC<ReplayProps> = ({setLoading, txnTypes}) => {
                 body={replayBlockData ? renderBlockContent(replayBlockData) : <div>Loading...</div>}
                 buttons={[]}
                 onClose={closeReplayBlockModal}
-                width='60%'
-                height='60%'
             />
         </div>
     );

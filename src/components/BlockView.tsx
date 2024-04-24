@@ -6,6 +6,7 @@ import DialogBoxModal from './DialogBoxModal';
 import TxnView from './TxnView';
 import { toast } from 'react-toastify';
 import Modal from './Modal';
+import { MdContentCopy } from "react-icons/md";
 
 interface BlockViewProps {
     block: {
@@ -97,45 +98,60 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
     return (
         <div className="mx-auto bg-sky-100 dark:bg-gray-900 text-blue-950 dark:text-white rounded-lg overflow-hidden">
             <div className="lg:p-8 p-4">
-                <div className="bg-white dark:bg-black rounded-lg text-center">
+                {/* <div className="bg-white dark:bg-black rounded-lg text-center">
                     <h1 className="text-xl font-bold mb-6 p-2">Block Hash: {block_hash}</h1>
-                </div>
+                </div> */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-8">
                     <div>
+                        <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Block Hash</p>
+                        <div className="flex items-center gap-2">
+                            <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={block_hash} />
+                            <button onClick={() => navigator.clipboard.writeText(block_hash)}>
+                                <MdContentCopy />
+                            </button>
+                        </div>
+                    </div>
+                    <div>
                         <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Previous Block Hash</p>
-                        <p className="text-lg font-semibold">{previous_block_hash}</p>
+                        {/* <p className="text-lg font-semibold">{previous_block_hash}</p> */}
+                        <div className="flex items-center gap-2">
+                            <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={previous_block_hash} />
+                            <button onClick={() => navigator.clipboard.writeText(previous_block_hash)}>
+                                <MdContentCopy />
+                            </button>
+                        </div>
                     </div>
                     <div>
                         <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Miner</p>
-                        <p className="text-lg font-semibold">{miner}</p>
+                        <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={miner} />
                     </div>
                     <div>
                         <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Total Amount</p>
-                        <p className="text-lg font-semibold">{total_amount}</p>
+                        <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={total_amount} />
                     </div>
                     <div>
                         <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Total Fee</p>
-                        <p className="text-lg font-semibold">{total_fee}</p>
+                        <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={total_fee} />
                     </div>
                     <div>
                         <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Transaction Count</p>
-                        <p className="text-lg font-semibold">{txn_cnt}</p>
+                        <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={txn_cnt} />
                     </div>
                     <div>
                         <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Nonce</p>
-                        <p className="text-lg font-semibold">{nonce}</p>
+                        <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={nonce} />
                     </div>
                     <div>
                         <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Difficulty</p>
-                        <p className="text-lg font-semibold">{difficulty}</p>
+                        <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={difficulty} />
                     </div>
                     <div>
                         <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Time Stamp</p>
-                        <p className="text-lg font-semibold">{time_stamp}</p>
+                        <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={time_stamp.replace("T", " ").replace("Z", "")} />
                     </div>
                     <div>
                         <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Height</p>
-                        <p className="text-lg font-semibold">{height}</p>
+                        <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={height} />
                     </div>
                 </div>
 
@@ -145,7 +161,8 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
                             {uncles.map((uncle, index) => (
                                 <div key={index} className="dark:bg-gray-700 bg-sky-400 p-4 rounded-lg uncle-block hover:bg-gray-400" onClick={() => getUncleBlock(uncle)}>
-                                    <span className="text-sm font-semibold cursor-pointer">{uncle}</span>
+                                    {/* <span className="text-sm font-semibold cursor-pointer">{uncle}</span> */}
+                                    <input className="text-base font-semibold w-full rounded pl-1 bg-inherit cursor-pointer" readOnly disabled value={uncle} />
                                 </div>
                             ))}
                         </div>

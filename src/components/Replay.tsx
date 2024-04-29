@@ -80,11 +80,14 @@ const Replay: React.FC<ReplayProps> = ({setLoading, txnTypes}) => {
             setReplayedTransactions(response.data.transactions);
             const blocks = response.data.blocks;
             addBlocks(blocks);
-            const txnsToRemove: string[] = [];
-                for (let i = 0; i < blocks.length; i++) {
-                    txnsToRemove.push(blocks[i].txn_hashes);
+            const txnsToRemove = new Set();
+            for (let i = 0; i < blocks.length; i++) {
+                if (Array.isArray(blocks[i].txn_hashes) && blocks[i].txn_hashes.length > 0) {
+                    blocks[i].txn_hashes.forEach((txn_hash: string) => txnsToRemove.add(txn_hash))
                 }
-            setReplayTransactionPool(prevReplayTransactionPool => prevReplayTransactionPool.filter(txn => !txnsToRemove[0].includes(txn.txn_hash)));
+            }
+            console.log(txnsToRemove);
+            setReplayTransactionPool(prevReplayTransactionPool => prevReplayTransactionPool.filter(txn => !txnsToRemove.has(txn.txn_hash)));
         } catch (error) {
             toast.error("An error occurred!", { theme: "dark" });
         }

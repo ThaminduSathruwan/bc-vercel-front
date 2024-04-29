@@ -14,7 +14,7 @@ interface Block {
     block_hash: string;
     total_amount: number;
     total_fee: number;
-    txn_cnt: number;
+    txn_count: number;
 }
 
 const Card: React.FC<CardProps> = ({ title, content, setBlockData, setLoading }) => {
@@ -47,7 +47,7 @@ const Card: React.FC<CardProps> = ({ title, content, setBlockData, setLoading })
                 <p className="font-semibold text-sky-300 dark:text-gray-300">Total Fee:</p>
                 <p className="text-green-400">{content.total_fee}</p>
                 <p className="font-semibold text-sky-300 dark:text-gray-300">No of Transactions:</p>
-                <p className="text-green-400">{content.txn_cnt}</p>
+                <p className="text-green-400">{content.txn_count}</p>
             </div>
             <div className='text-center b-2 lg:text-base text-xs'>
                 <button onClick={() => handleViewBlock(content.block_hash)}><span className="text-white font-bold">View More</span></button>

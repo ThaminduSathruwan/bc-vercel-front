@@ -84,7 +84,7 @@ export const Service = {
     //                     previous_block_hash: Service.generateRandomHash(),
     //                     total_amount: Math.floor(Math.random() * 1000) + 1,
     //                     total_fee: Math.floor(Math.random() * 100000) + 1,
-    //                     txn_cnt: Math.floor(Math.random() * 100000) + 1,
+    //                     txn_count: Math.floor(Math.random() * 100000) + 1,
     //                     time_stamp: new Date().toISOString(),
     //                     miner: ("0x" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)),
     //                     nonce: Math.floor(Math.random() * 100000) + 1,
@@ -175,7 +175,7 @@ export const Service = {
             txn_hashes: savedTransactions.splice(Math.floor(Math.random() * savedTransactions.length), Math.floor(Math.random() * savedTransactions.length)),
             total_amount: Math.floor(Math.random() * 1000) + 1,
             total_fee: Math.floor(Math.random() * 100000) + 1,
-            txn_cnt: Math.floor(Math.random() * 100000) + 1,
+            txn_count: Math.floor(Math.random() * 100000) + 1,
             time_stamp: new Date().toISOString()
         };
     },

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ethLogo from '../Assets/eth.png';
 import Service from '../services/Service';
 import Tooltip from '@mui/material/Tooltip';
-import DialogBoxModal from './DialogBoxModal';
 import TxnView from './TxnView';
 import { toast } from 'react-toastify';
 import Modal from './Modal';
@@ -14,7 +13,7 @@ interface BlockViewProps {
         previous_block_hash: string;
         total_amount: number;
         total_fee: number;
-        txn_cnt: number;
+        txn_count: number;
         time_stamp: string;
         miner: string;
         nonce: number;
@@ -36,7 +35,7 @@ interface SideCar {
 }
 
 const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockModal, setLoading, txnTypes }) => {
-    const { block_hash, previous_block_hash, total_amount, total_fee, txn_cnt, time_stamp, miner, nonce, difficulty, height, transactions, uncles, sidecar } = block;
+    const { block_hash, previous_block_hash, total_amount, total_fee, txn_count, time_stamp, miner, nonce, difficulty, height, transactions, uncles, sidecar } = block;
     const [txnData, setTxnData] = useState<any[]>([]);
     const [isTxnModalOpen, setIsTxnModalOpen] = useState(false);
 
@@ -135,7 +134,7 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
                     </div>
                     <div>
                         <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Transaction Count</p>
-                        <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={txn_cnt} />
+                        <input className="text-base font-semibold w-full rounded pl-1" readOnly disabled value={txn_count} />
                     </div>
                     <div>
                         <p className="text-sm text-sky-800 dark:text-gray-500 mb-2">Nonce</p>
@@ -155,7 +154,7 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
                     </div>
                 </div>
 
-                {uncles && (
+                {uncles && uncles.length > 0 && (
                     <div className="mb-8">
                         <h2 className="text-2xl font-semibold mb-4">Uncles</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
@@ -169,7 +168,7 @@ const BlockView: React.FC<BlockViewProps> = ({ block, setBlockData, closeBlockMo
                     </div>
                 )}
 
-                {sidecar && (
+                {sidecar && sidecar.length > 0 && (
                     <div className="mb-8">
                         <h2 className="text-2xl font-semibold mb-4">Sidecar</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">

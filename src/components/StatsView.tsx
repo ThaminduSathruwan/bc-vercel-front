@@ -18,27 +18,27 @@ const StatsView: React.FC<StatsViewProps> = ({ StatsData }) => {
     const { transaction_count, block_count, total_tx_amount, total_tx_fee, txn_pool, miners } = StatsData;
     
     return (
-      <div className="max-w-screen-lg mx-auto px-4 text-white">
+      <div className="max-w-screen-lg mx-auto px-4 text-blue-950 dark:text-white text-gray-600">
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-lg font-semibold mb-2">Transaction Count (Last 1 Hour)</h3>
-            <p className="text-3xl">{transaction_count}</p>
+          <div className="dark:bg-gray-800 bg-sky-400 rounded-lg p-4">
+            <h3 className="text-base font-semibold mb-2">Transaction Count (Last 1 Hour)</h3>
+            <p className="text-2xl">{transaction_count}</p>
           </div>
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-lg font-semibold mb-2">Block Count (Last 1 Hour)</h3>
-            <p className="text-3xl">{block_count}</p>
+          <div className="dark:bg-gray-800 bg-sky-400 rounded-lg p-4">
+            <h3 className="text-base font-semibold mb-2">Block Count (Last 1 Hour)</h3>
+            <p className="text-2xl">{block_count}</p>
           </div>
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-lg font-semibold mb-2">Total Transaction Amount (Last 1 Hour)</h3>
-            <p className="text-3xl">{total_tx_amount}</p>
+          <div className="dark:bg-gray-800 bg-sky-400 rounded-lg p-4">
+            <h3 className="text-base font-semibold mb-2">Total Transaction Amount (Last 1 Hour)</h3>
+            <p className="text-2xl">{total_tx_amount}</p>
           </div>
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-lg font-semibold mb-2">Total Transaction Fee (Last 1 Hour)</h3>
-            <p className="text-3xl">{total_tx_fee}</p>
+          <div className="dark:bg-gray-800 bg-sky-400 rounded-lg p-4">
+            <h3 className="text-base font-semibold mb-2">Total Transaction Fee (Last 1 Hour)</h3>
+            <p className="text-2xl">{total_tx_fee}</p>
           </div>
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-lg font-semibold mb-2">Transaction Pool</h3>
-            <p className="text-3xl">{txn_pool}</p>
+          <div className="dark:bg-gray-800 bg-sky-400 rounded-lg p-4">
+            <h3 className="text-base font-semibold mb-2">Transaction Pool</h3>
+            <p className="text-2xl">{txn_pool}</p>
           </div>
         </div>
         <div className="mt-8">
@@ -55,8 +55,8 @@ const StatsView: React.FC<StatsViewProps> = ({ StatsData }) => {
               options={{
                 title: 'Top Miners (Last 1000 Blocks)',
                 backgroundColor: 'transparent',
-                legend: { textStyle: { color: 'white', fontSize: 14 } },
-                titleTextStyle: { color: 'white', fontSize: 24, bold: true },
+                legend: { textStyle: { color: 'blue', fontSize: 14 } },
+                titleTextStyle: { color: 'blue', fontSize: 24, bold: true },
                 pieSliceTextStyle: { color: 'white', fontSize: 16 },
                 pieSliceBorderColor: 'transparent',
                 tooltip: { text: 'value' },

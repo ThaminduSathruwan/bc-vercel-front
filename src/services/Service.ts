@@ -103,19 +103,31 @@ export const Service = {
     },
     
     // get block data using block_hash API call
-    getBlockData: async (block_hash: string): Promise<any> => {
+    getBlockData: async (block_id: string): Promise<any> => {
+        let block_hash = '';
+        let height = '';
+        if (block_id.startsWith("0x")) {
+            block_hash = block_id;
+            height = (Math.floor(Math.random() * 100000) + 1).toString();
+        } else {
+            block_hash = Service.generateRandomHash();
+            height = block_id;
+        }
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve({
                     data: {
                         block_hash: block_hash,
                         previous_block_hash: Service.generateRandomHash(),
-                        height: Math.floor(Math.random() * 100000) + 1,
                         total_amount: Math.floor(Math.random() * 1000) + 1,
                         total_fee: Math.floor(Math.random() * 100000) + 1,
                         txn_count: Math.floor(Math.random() * 100000) + 1,
                         time_stamp: new Date().toISOString(),
-                        insert_time: new Date().toISOString()
+                        miner: ("0x" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)),
+                        nonce: Math.floor(Math.random() * 100000) + 1,
+                        difficulty: Math.floor(Math.random() * 100000) + 1,
+                        height: height,
+                        insert_time: new Date().toISOString(),
                     }
                 });
             }, 1000);

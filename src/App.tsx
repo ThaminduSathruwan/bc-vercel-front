@@ -31,6 +31,8 @@ function App() {
   const [isTransactionOpen, setIsTransactionOpen] = useState(false);
   const [isBlockOpen, setIsBlockOpen] = useState(false);
   const [isReplayOpen, setIsReplayOpen] = useState(false);
+  const [isReplayBlockOpen, setIsReplayBlockOpen] = useState(false);
+  const [isReplayOptionOpen, setIsReplayOptionOpen] = useState(false);
   const [transactionData, setTransactionData] = useState<any | null>(null);
   const [blockData, setBlockData] = useState<any | null>(null);
   const [statsData, setStatsData] = useState<any>();
@@ -85,7 +87,17 @@ function App() {
   }
   
   const openReplayModal = () => {
+    closeReplayOptionModal();
     setIsReplayOpen(true);
+  }
+  
+  const openReplayBlockModal = () => {
+    closeReplayOptionModal();
+    setIsReplayBlockOpen(true);
+  }
+  
+  const openReplayOptionModal = () => {
+    setIsReplayOptionOpen(true);
   }
   
   const closeStatsModal = () => {
@@ -106,6 +118,14 @@ function App() {
   
   const closeReplayModal = () => {
     setIsReplayOpen(false);
+  }
+  
+  const closeReplayBlockModal = () => {
+    setIsReplayBlockOpen(false);
+  }
+  
+  const closeReplayOptionModal = () => {
+    setIsReplayOptionOpen(false);
   }
   
   const onSearch = (searchQuery: string) => {
@@ -164,7 +184,32 @@ function App() {
   
   const renderReplayContent = () => {
     return (
-      <Replay setLoading={setLoading} txnTypes={txnTypes} />
+      <Replay setLoading={setLoading} txnTypes={txnTypes} replayType={0} />
+    );
+  }
+  
+  const renderReplayBlockContent = () => {
+    return (
+      <Replay setLoading={setLoading} txnTypes={txnTypes} replayType={1} />
+    );
+  }
+  
+  const renderReplayOptionContent = () => {
+    return (
+      <div className='flex justify-center'>
+        <button
+          onClick={openReplayModal}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+        >
+          Replay using Timestamp
+        </button>
+        <button
+          onClick={openReplayBlockModal}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Replay using Block ID
+        </button>
+      </div>
     );
   }
   
@@ -178,14 +223,9 @@ function App() {
   
   return (
     <div className="App bg-zinc-100 dark:bg-black text-blue-950 dark:text-white max-w-full h-screen overflow-hidden"> 
-      <Navbar openStatsModal={openStatsModal} openHelpModal={openHelpModal} onSearch={onSearch} openReplayModal={openReplayModal} />
+      <Navbar openStatsModal={openStatsModal} openHelpModal={openHelpModal} onSearch={onSearch} openReplayOptionModal={openReplayOptionModal} />
       <Stream setTransactionData={handleSetTransactionData} setBlockData={handleSetBlockData} setLoading={setLoading} txnTypes={txnTypes} />
       <ToastContainer />
-      {/* <div className='fixed bottom-0 right-0 mb-4 mr-4 hidden md:block lg:block z-50'>
-        <Tooltip title={getTooltipTitle()} key={1}>
-          <FaInfoCircle className="text-2xl hover:text-blue-500 cursor-pointer" />
-        </Tooltip>
-      </div> */}
       {loading ? <Loading /> : null}
       {/* Dialog Boxes */}
       <Modal
@@ -222,6 +262,20 @@ function App() {
         body={renderReplayContent()}
         buttons={[]}
         onClose={closeReplayModal}
+      />
+      <DialogBoxModal
+        isOpen={isReplayBlockOpen}
+        title=""
+        body={renderReplayBlockContent()}
+        buttons={[]}
+        onClose={closeReplayBlockModal}
+      />
+      <Modal
+        isOpen={isReplayOptionOpen}
+        title="Replay"
+        body={renderReplayOptionContent()}
+        buttons={[]}
+        onClose={closeReplayOptionModal}
       />
     </div>
   );

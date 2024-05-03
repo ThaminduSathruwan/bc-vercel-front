@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-	"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.18",
@@ -65,9 +64,4 @@
     "@types/d3-sankey": "^0.12.4",
     "@types/react-chartjs-2": "^2.5.7"
   },
-	"jest": {
-		"transformIgnorePatterns": [
-			"/node_modules/(?!d3|d3-array|internmap|delaunator|robust-predicates)"
-		]
-	}
 }

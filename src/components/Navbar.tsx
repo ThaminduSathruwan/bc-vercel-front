@@ -7,14 +7,14 @@ import ThemeSwitch from "./ThemeSelector";
 interface NavbarProps {
   openStatsModal: () => void;
   openHelpModal: () => void;
-  openReplayModal: () => void;
+  openReplayOptionModal: () => void;
   onSearch: (query: string) => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({
   openStatsModal,
   openHelpModal,
-  openReplayModal,
+  openReplayOptionModal,
   onSearch,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -55,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </button>
           <button
             className="block mt-4 lg:mt-0 text-white hover:text-gray-200 focus:outline-none"
-            onClick={openReplayModal}
+            onClick={openReplayOptionModal}
           >
             <MdReplayCircleFilled className="inline-block mr-1" /> Replay
           </button>

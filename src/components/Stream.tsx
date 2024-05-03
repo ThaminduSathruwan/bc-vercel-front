@@ -62,7 +62,6 @@ const Stream: React.FC<StreamProps> = ({setTransactionData, setBlockData, setLoa
                 setInitialTime(current_time);
                 const response = await Service.getStreamData(start_time, end_time);
                 setTransaction(response.data.transactions);
-                console.log(response.data);
                 // updateCount(streamData.transactions.length);
                 const blocks = response.data.blocks;
                 addBlock(blocks);

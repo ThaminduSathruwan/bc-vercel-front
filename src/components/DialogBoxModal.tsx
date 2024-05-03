@@ -12,7 +12,7 @@ interface DialogBoxModalProps {
   height?: string;
 }
 
-const DialogBoxModal: React.FC<DialogBoxModalProps> = ({ isOpen, title, body, buttons, onClose, width='75%', height='75%'}) => {
+const DialogBoxModal: React.FC<DialogBoxModalProps> = ({ isOpen, title, body, buttons, onClose, width='90%', height='90%'}) => {
   if (!isOpen) return null;
 
   const WHStyle = {
